@@ -43,7 +43,7 @@ function App() {
             <Route>
               <div className='new-header'>
                 <div className='standard-flex header-content'>
-                  <img src="http://10.1.1.37/favicon.ico" alt='LTCData Logo' />
+                  
                   <h1 className='centered-text'>LTCData Processing</h1>
                   <nav className='general-flex right-align'>
                     <ExpandingButton text="Site Admin" children={SiteAdmin} />
