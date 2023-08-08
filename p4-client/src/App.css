@@ -1,38 +1,96 @@
 .App {
   text-align: center;
+  background-color: #eaeeef;
+
+  --bg-2: #9acccd;
+  --bg-1: #99CBCC;
+  --bg-3: #67999a;
+  --main-bg: #f0f0f0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+
+aside {
+  flex: 1 0 10%;
+  background: #f0f0f0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header {
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  border-radius: 0 10px 0 0;
+  background-color: #9acccd;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.internal-header {
+  background-color: #f0f0f0;
+  width: 100%;
+  height: 50px;
+  margin: 0px;
+  padding: 15px;
 }
 
-.App-link {
-  color: #61dafb;
+.new-header {
+  background: var(--bg-1);
+  position: absolute;
+  height: 15vh;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.right-align {
+  float: right;
+  margin-right: 1.5vw;
+  margin-left: auto;
+  align-self: center;
+}
+
+.main-content {
+  position: sticky;
+  top: 150px;
+  min-height: 75vh;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  margin-top: 10vh;
+  max-height: 88vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  border: 1px solid slategray;
+  border-radius: 10px;
+  background: var(--main-bg);
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.4);
+}
+
+.main-content::-webkit-scrollbar {
+  background: transparent;
+  /* Chrome/Safari/Webkit */
+  width: 0px;
+}
+
+.disable-scrollbars {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE 10+ */
+}
+
+.header-content img {
+  margin-left: 1.5vw;
+  margin-top: 2vh;
+  border-radius: 5px;
+  width: 6vh;
+  height: 6vh;
+}
+
+.centered-text {
+  text-align: center;
+  margin: 3.5vh;
+  margin-left: 1vh;
+}
+
+.header-content {
+  position: relative;
+  z-index: 2;
 }
