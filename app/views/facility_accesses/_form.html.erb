@@ -1,0 +1,17 @@
+<%= form_with(model: facility_access) do |form| %>
+  <% if facility_access.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(facility_access.errors.count, "error") %> prohibited this facility_access from being saved:</h2>
+
+      <ul>
+        <% facility_access.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

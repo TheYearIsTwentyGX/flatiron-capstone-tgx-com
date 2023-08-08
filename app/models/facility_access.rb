@@ -1,0 +1,2 @@
+class FacilityAccess < ApplicationRecord
+end
