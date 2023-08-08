@@ -3,15 +3,14 @@ import { useHistory } from 'react-router';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
-//import Login from './Components/Login';
+import Login from './Components/Login';
 //import ViewFacilityInfo from './Components/FacilityViews/ViewFacilityInfo';
 //import Sidebar from './Components/Sidebar';
 //import UserRequestList from './Components/UserRequests/UserRequestList';
 //import MainContent from './Components/MainContent';
 import { UserContext, UserProvider } from './Context/UserContext';
 import './Common.css'
-//import ExpandingButton from './Components/ExpandingButton';
-
+import ExpandingButton from './Components/ExpandingButton';
 
 
 function App() {
