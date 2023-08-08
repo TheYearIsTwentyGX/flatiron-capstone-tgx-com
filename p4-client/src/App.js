@@ -7,7 +7,7 @@ import Login from './Components/Login';
 //import ViewFacilityInfo from './Components/FacilityViews/ViewFacilityInfo';
 //import Sidebar from './Components/Sidebar';
 //import UserRequestList from './Components/UserRequests/UserRequestList';
-//import MainContent from './Components/MainContent';
+import MainContent from './Components/MainContent';
 import { UserContext, UserProvider } from './Context/UserContext';
 import './Common.css'
 import ExpandingButton from './Components/ExpandingButton';
