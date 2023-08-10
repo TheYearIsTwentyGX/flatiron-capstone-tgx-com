@@ -1,0 +1,21 @@
+To execute stored procedures:
+output = ActiveRecord::Base.execute_procedure("PROCEDURE NAME", param1, param2, etc)
+
+Implemented Procedures:
+
+  Cash Administration:
+    - BankBalance
+    - BookBalance
+    - ChecksOutstanding
+    - SubTypeDropdown
+    - Update_Check_Amount
+    - Update_Check_ClearDate
+    - Update_Check_VoidAP
+    - Update_Check_VoidPR
+
+
+How to view the server output:
+  - In the console, type: 'scr' or 'screen -r'
+  - To exit the screen, type: 'ctrl + a + d'
+  - If the screen session has been terminated, type 'screen' to start a new session
+  - Type exit to terminate the screen

@@ -1,0 +1,10 @@
+class <%= class_name %>Controller < ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
+  before_action { ApplicationController.authenticate(session) }
+
+  private
+
+  def render_not_found
+    render json: {error: ""}, status: :not_found
+  end
+end

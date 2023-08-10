@@ -1,0 +1,39 @@
+.access-text {
+    font-weight: 100;
+}
+
+.user-view {
+    height: max-content;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.root {
+    margin-left: 30px;
+}
+
+textarea {
+    max-height: 250px;
+    height: max-content;
+    max-width: 300px;
+    min-height: 175px;
+}
+
+.maxed {
+    max-width: 100%;
+    background: gainsboro;
+    border: 1px solid darkgray;
+    border-radius: 10px;
+    margin: 10px;
+    padding-bottom: 10px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4);
+}
+
+.maxed textarea {
+    max-width: 98%;
+    width: 90%;
+
+    margin: 0 1vw;
+}

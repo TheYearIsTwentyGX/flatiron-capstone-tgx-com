@@ -10,27 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_07_230624) do
-
+ActiveRecord::Schema[7.0].define(version: 2023_08_10_011541) do
   create_table "facilities", force: :cascade do |t|
     t.integer "Coserial"
     t.string "Report_Name"
     t.string "Discipline"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "Phone"
+    t.string "Fax"
+    t.string "Address1"
+    t.string "Address2"
+    t.string "City"
+    t.string "State"
+    t.integer "Zip"
   end
 
   create_table "facility_accesses", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "User_Name"
     t.integer "Coserial"
     t.date "Access_Until"
   end
 
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "User_Name"
     t.integer "Access_Profile"
     t.string "password_digest"

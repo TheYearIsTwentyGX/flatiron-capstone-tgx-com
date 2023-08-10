@@ -1,6 +1,6 @@
+# Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 Rails.application.routes.draw do
-  resources :facilities
-  resources :facility_accesses
-  resources :users
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+	post '/login', to: 'sessions#create'
+	get '/users/:id', to: 'master_security/users#show'
+	resources :facilities, controller: "master_security/facilities"
 end
