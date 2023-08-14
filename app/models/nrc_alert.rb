@@ -1,2 +1,0 @@
-class NrcAlert < MarketingDbBase
-end

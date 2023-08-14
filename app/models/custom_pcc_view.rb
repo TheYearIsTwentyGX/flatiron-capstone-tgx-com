@@ -1,2 +1,0 @@
-class CustomPccView < ApplicationRecord
-end

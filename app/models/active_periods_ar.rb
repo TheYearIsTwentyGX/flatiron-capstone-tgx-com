@@ -1,2 +1,0 @@
-class ActivePeriodsAr < ApplicationRecord
-end

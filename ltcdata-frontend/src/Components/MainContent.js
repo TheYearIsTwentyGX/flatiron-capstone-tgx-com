@@ -7,22 +7,22 @@ import { UserContext } from '../Context/UserContext';
 import { useContext } from 'react';
 
 function MainContent() {
-  const { username, setUsername } = useContext(UserContext);
-  return (
-    <div className='proot'>
-    <Switch>
-        <Route exact path="/">
-          <Login username={username} setUsername={setUsername} />
-        </Route>
-        <Route path="/home">
-          <ViewFacilityInfo username={username} />
-        </Route>
-        <Route path="/admin/user_requests">
-          <UserRequestList />
-        </Route>
-      </Switch>
-    </div>
-  )
+	const { username, setUsername } = useContext(UserContext);
+	return (
+		<div className='proot'>
+			<Switch>
+				<Route exact path="/">
+					<Login username={username} setUsername={setUsername} />
+				</Route>
+				<Route path="/home">
+					{/* <ViewFacilityInfo username={username} /> */}
+				</Route>
+				<Route path="/admin/user_requests">
+					<UserRequestList />
+				</Route>
+			</Switch>
+		</div>
+	)
 }
 
 export default MainContent;

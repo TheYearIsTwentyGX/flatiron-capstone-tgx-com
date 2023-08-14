@@ -22,19 +22,21 @@ class MasterSecurity::UsersController < ApplicationController
     end
   end
 
-  def create
+  def regionals
+  end
 
+  def create
   end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-      @user = User.find_by! User_Name: params[:id]
-    end
+    @user = User.find_by! User_Name: params[:id]
+  end
 
   def render_not_found_response
-    render json: {error: "User not found"}, status: :not_found
+    render json: { error: "User not found" }, status: :not_found
   end
 
   # Only allow a list of trusted parameters through.
