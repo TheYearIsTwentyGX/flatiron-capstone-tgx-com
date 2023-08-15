@@ -1,8 +1,11 @@
 # Handles requests for users
 class MasterSecurity::UsersController < ApplicationController
+  wrap_parameters :user, include: [:password, :password_confirmation, :User_Name, :Access_Profile, :Full_Name], on: [:create]
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
-  before_action :set_user, only: %i[show facilities update_facilities contact access_profile]
+  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
+  before_action :set_user, only: %i[show facilities update update_facilities contact access_profile]
   before_action { ApplicationController.authenticate(session) }
+  after_action :update_facilities, only: [:update, :create]
 
 	def index
 		render json: User.all, each_serializer: UserRequestSerializer
@@ -17,23 +20,26 @@ class MasterSecurity::UsersController < ApplicationController
 		render json: @user.facilities
   end
 
-  # PATCH /users/:id/facilities (update assigned facilities)
   def update_facilities
-    params[:Facilities].each do |facility|
-      fac_access = FacilityAccess.find_by(User_ID: @user.User_ID, Co_Serial: facility[:Co_Serial])
-      if fac_access
-        dated = DateTime.parse((facility[:Access_Until] || "2999-12-31 00:00:00"))
-        fac_access.update(Access_Until: dated.strftime("%Y-%m-%d %H:%M:%S"))
-      elsif facility[:Access_Until].nil?
-        FacilityAccess.create(User_ID: @user.User_ID, CO_Serial: facility[:Co_Serial])
-      end
+    new_facilities = params[:Facilities].split(',')
+    @user.facilities.where.not(Coserial: new_facilities).destroy_all
+
+    new_facilities.each do |facility|
+      access = FacilityAccess.find_or_create_by!(User_Name: @user.User_Name, Coserial: facility)
+      access.Access_Until = Date.new(2999,12,31)
+      access.save
     end
   end
 
-  def regionals
+  def create
+    @user = User.create!(user_params)
+    render json: @user, status: :created
   end
 
-  def create
+  def update
+    @user.update!(user_params)
+    update_facilities
+    render json: @user, serializer: UserRequestSerializer
   end
 
   private
@@ -42,7 +48,7 @@ class MasterSecurity::UsersController < ApplicationController
   def set_user
 		@user = User.find_by id: params[:id]
 		if @user.nil?
-    	@user = User.find_by! User_Name: params[:id]
+    	@user = User.find_by! User_Name: (params[:id].present? ? params[:id] : params[:User_Name])
 		end
   end
 
@@ -50,8 +56,12 @@ class MasterSecurity::UsersController < ApplicationController
     render json: { error: "User not found" }, status: :not_found
   end
 
-  # Only allow a list of trusted parameters through.
-  def user_params
-    params.require(:user).permit(:User_Name, :User_ID, :Full_Name, :password_confirmation, :password, :All_Homes, :Access_Profile, :email_Address, :Access_Until, :On_Corp_Schedule, :On_Corp_TimeRecord, :On_Field_Directory, :Is_CorpFFA, :Is_CorpRPS, :Is_CorpRegional, :Is_CorpMDS, :Is_CorpAP, :Is_CorpPR, :Is_CorpNurse, :Is_FacilityPR, :Is_FacilityAP, :Is_FacilityAdmin, :Is_FacilityAR, :Is_FacilityDON, :Is_FacilityAMC, :Is_FacilityMDS, :Last_Access_DateTime, :Last_Access_IP, :Notify_DepLogMissed, :TechGap_UserName, :Can_Print_Checks, :IT_Alerts, :Setup_date, :LastModified_Date, :LastModified_By, :Census_Alerts, :Is_CorpMarketing, :Last_Access_Server, :Send_SprdShtFin, :Send_FinSum, :Is_CorpVP, :Is_CorpAccountant, :Is_CorpVPAssist, :Notes, :Title, :Extension, :Phone_Office, :fax_Number, :Address1, :Address2, :City, :State, :Zip, :Phone_Mobile, :efax_Number, :WebIDT_FullAudit, :On_Corp_Directory, :Is_CorpCOO, :Is_CorpCFO, :Notify_ClientActivityMissed, :Last_Access_Page, :Notify_FinancialsReady, :Is_FacilityActivities, :Is_FacilitySS, :RemovedFromDSSI, :Corp_EmpNum, :DSSI_HomeOffice, :Is_CorpHR, :ForcePasswordReset, :CoSerialFilter, :Speed_Dial, :YOUNITE_Officer, :Process_CreditApp, :Process_VendorRequest, :Is_CorpRFP, :EmailtoText, :KronosLogon, :CoSerialFilter_AP, :password_digest)
+  def render_unprocessable_entity_response(exception)
+    render json: { errors: exception.record.errors.full_messages }, status: :unprocessable_entity
   end
+
+    # Only allow a list of trusted parameters through.
+    def user_params
+      params.require(:user).permit(:User_Name, :id, :Password, :Full_Name, :password, :password_confirmation, :Access_Profile, :Email_Address, :Facilities, :Access_Until, :Phone, :Extension, :Credentials, :password_digest)
+    end
 end
