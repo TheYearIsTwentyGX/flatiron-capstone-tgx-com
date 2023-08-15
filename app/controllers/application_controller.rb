@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
   include ActionController::Cookies
+  wrap_parameters format: [:json]
   def self.authenticate(session)
     render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id
   end
