@@ -12,6 +12,8 @@ gem "bcrypt"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.5"
 
+gem "faker"
+
 gem "sqlite3"
 
 # Use the Puma web server [https://github.com/puma/puma]
