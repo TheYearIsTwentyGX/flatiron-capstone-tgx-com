@@ -1,0 +1,12 @@
+.standard-button {
+    box-sizing: content-box;
+    cursor: pointer;
+    margin: 10px 5px;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 10px 20px;
+    color: rgba(0, 0, 0, 1);
+    text-align: center;
+    background: #9acccd;
+    text-shadow: -1px -1px 0 rgba(15, 73, 168, 0);
+}

@@ -1,0 +1,18 @@
+.footer-button:hover {
+    cursor: pointer;
+}
+
+.footer-button {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.footer-button p {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.sidebar-button {
+    display: grid;
+}

@@ -1,0 +1,29 @@
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './Login';
+import UserRequestList from './UserRequests/UserRequestList';
+import { UserContext } from '../Context/UserContext';
+import { useContext } from 'react';
+import { UserFormProvider } from '../Context/UserFormContext';
+
+function MainContent() {
+	const { username, setUsername } = useContext(UserContext);
+	return (
+		<div className='proot'>
+			<Switch>
+				<Route exact path="/">
+					<Login username={username} setUsername={setUsername} />
+				</Route>
+				<Route path="/home">
+					{/* <ViewFacilityInfo username={username} /> */}
+				</Route>
+				<Route path="/admin/user_requests">
+					<UserFormProvider>
+						<UserRequestList />
+					</UserFormProvider>
+				</Route>
+			</Switch>
+		</div>
+	)
+}
+
+export default MainContent;

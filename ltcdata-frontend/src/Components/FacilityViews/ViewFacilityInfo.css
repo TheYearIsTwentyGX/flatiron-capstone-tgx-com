@@ -1,0 +1,11 @@
+h2, h4 {
+    color: black;
+}
+
+.cardContainer {
+    
+    display: flex;
+    margin-top: 15px;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
