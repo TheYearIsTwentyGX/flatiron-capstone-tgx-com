@@ -1,10 +1,9 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './Login';
-import ViewFacilityInfo from './FacilityViews/ViewFacilityInfo';
-import Sidebar from './Sidebar';
 import UserRequestList from './UserRequests/UserRequestList';
 import { UserContext } from '../Context/UserContext';
 import { useContext } from 'react';
+import { UserFormProvider } from '../Context/UserFormContext';
 
 function MainContent() {
 	const { username, setUsername } = useContext(UserContext);
@@ -18,7 +17,9 @@ function MainContent() {
 					{/* <ViewFacilityInfo username={username} /> */}
 				</Route>
 				<Route path="/admin/user_requests">
-					<UserRequestList />
+					<UserFormProvider>
+						<UserRequestList />
+					</UserFormProvider>
 				</Route>
 			</Switch>
 		</div>

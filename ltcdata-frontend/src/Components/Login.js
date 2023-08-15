@@ -16,7 +16,7 @@ function Login() {
 			"Username": username,
 			"Password": password
 		}
-		fetch('http://localhost:3000/login', {
+		fetch('http://localhost:3002/login', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

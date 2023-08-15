@@ -17,7 +17,7 @@ function ViewFacilityInfo() {
 			history.push('/');
 			return;
 		}
-		fetch("http://localhost:3000/facilities")
+		fetch("http://localhost:3002/facilities")
 			.then(response => response.json())
 			.then(data => { console.log(data); return data; })
 			.then(data => { setUserFacilities(data); });
@@ -25,13 +25,13 @@ function ViewFacilityInfo() {
 
 	function handleFacilityChange(e) {
 		let coserial = userFacilities.find(f => f.Report_Name === e.target.value).Cosrial;
-		fetch("http://localhost:3000/facilities/" + coserial)
+		fetch("http://localhost:3002/facilities/" + coserial)
 			.then(response => response.json())
 			.then(data => { setSelectedFacility(data); });
-		fetch("http://localhost:3000/facilities/" + coserial + "/regionals")
+		fetch("http://localhost:3002/facilities/" + coserial + "/regionals")
 			.then(response => response.json())
 			.then(data => { setFacilityRegionals(data); });
-		fetch("http://localhost:3000/facilities/" + coserial + "/facility_staff")
+		fetch("http://localhost:3002/facilities/" + coserial + "/facility_staff")
 			.then(response => response.json())
 			.then(data => { setFacilityEmployees(data); });
 	}

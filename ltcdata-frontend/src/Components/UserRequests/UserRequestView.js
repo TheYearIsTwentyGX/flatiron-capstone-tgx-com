@@ -5,11 +5,6 @@ import "./UserRequestView.css"
 export default function UserRequestView({ request }) {
 
 	let regBuildings = [];
-	if (request.Buildings !== undefined) {
-		regBuildings = request.Buildings.split(/[;\n]/);
-		if (regBuildings.length < 1)
-			regBuildings.push(request.Buildings)
-	}
 
 	return (
 		<Card title="Current Request">
