@@ -4,9 +4,17 @@ class MasterSecurity::UsersController < ApplicationController
   before_action :set_user, only: %i[show facilities update_facilities contact access_profile]
   before_action { ApplicationController.authenticate(session) }
 
+	def index
+		render json: User.all, each_serializer: UserRequestSerializer
+	end
+
   # GET /users/1
   def show
     render json: @user, except: [:password_digest, :Password], include: [:facility_accesses]
+  end
+
+  def facilities
+		render json: @user.facilities
   end
 
   # PATCH /users/:id/facilities (update assigned facilities)
@@ -32,7 +40,10 @@ class MasterSecurity::UsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = User.find_by! User_Name: params[:id]
+		@user = User.find_by id: params[:id]
+		if @user.nil?
+    	@user = User.find_by! User_Name: params[:id]
+		end
   end
 
   def render_not_found_response

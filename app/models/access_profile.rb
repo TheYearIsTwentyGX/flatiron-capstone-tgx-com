@@ -1,3 +1,2 @@
-class AccessProfile < MasterSecurityDbBase
-  self.table_name = "Access_Profiles"
+class AccessProfile < ActiveRecord::Base
 end
