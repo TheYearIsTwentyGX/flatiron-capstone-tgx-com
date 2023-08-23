@@ -1,6 +1,6 @@
 class MasterSecurity::FacilitiesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
-  before_action :set_facility, only: %i[show contact_info update]
+  before_action :set_facility, only: %i[show contact_info]
   before_action { ApplicationController.authenticate(session) }
 
   # GET /facilities
@@ -33,7 +33,14 @@ class MasterSecurity::FacilitiesController < ApplicationController
   end
 
   def update
+    if params[:OldCoserial].present?
+      @facility = Facility.find_by! Coserial: params[:id]
+    else
+      set_facility
+    end
+
     if @facility.update(facility_params)
+      FacilityAccess.where(Coserial: params[:OldCoserial]).update_all(Coserial: @facility.Coserial)
       render json: @facility
     else
       render json: {errors: @facility.errors.full_messages}, status: :unprocessable_entity
@@ -53,6 +60,6 @@ class MasterSecurity::FacilitiesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def facility_params
-    params.require(:facility).permit(:Report_Name, :Speed_Dial, :State, :Address1, :Address2, :City, :Zip, :Phone, :Fax, :Coserial)
+    params.require(:facility).permit(:Report_Name, :Speed_Dial, :State, :Address1, :Address2, :City, :Zip, :Phone, :Fax, :Coserial, :Discipline, :created_at, :updated_at)
   end
 end

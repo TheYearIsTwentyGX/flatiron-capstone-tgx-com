@@ -19,9 +19,14 @@ class MasterSecurity::FacilityAccessesController < ApplicationController
     @facility_access.Access_Until = DateTime.now - 1.day
   end
 
+  def update
+    @facility_access.update!(facility_access_params)
+    render json: @facility_access
+  end
+
   def create
-    @access = FacilityAccess.create(facility_access_params)
-    @access.valid?
+    @facility_access = FacilityAccess.create(facility_access_params)
+    @facility_access.valid?
   end
 
   private
@@ -32,7 +37,7 @@ class MasterSecurity::FacilityAccessesController < ApplicationController
   end
 
   def render_unprocessable_entity_response
-    render json: {errors: @access.errors.full_messages}, status: :unprocessable_entity
+    render json: {errors: @facility_access.errors.full_messages}, status: :unprocessable_entity
   end
 
   # Only allow a list of trusted parameters through.

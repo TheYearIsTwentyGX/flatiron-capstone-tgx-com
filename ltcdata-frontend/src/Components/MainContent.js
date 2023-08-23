@@ -26,9 +26,7 @@ function MainContent() {
 						<UserRequestList />
 					</UserFormProvider>
 				</Route>
-				<Route path="/admin/edit_facility">
-					<FacilityEdit />
-				</Route>
+				<Route path={["/admin/edit_facility/:id", "/admin/edit_facility"]} component={FacilityEdit} />
 			</Switch>
 		</div>
 	)

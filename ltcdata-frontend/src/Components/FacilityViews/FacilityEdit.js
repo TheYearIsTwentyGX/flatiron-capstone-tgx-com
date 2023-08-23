@@ -1,6 +1,7 @@
 import Card from "../CommonUI/Card";
 import "./FacilityEdit.css";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { UserContext } from "../../Context/UserContext";
 
 export default function FacilityEdit() {
@@ -9,6 +10,8 @@ export default function FacilityEdit() {
   const [formValues, setFormValues] = useState({});
   const [selectedFacility, setSelectedFacility] = useState("");
   const [errors, setErrors] = useState([]);
+  const { id = "" } = useParams();
+  const history = useHistory();
 
   function onInputChange(e) {
     console.log(errors);
@@ -20,6 +23,7 @@ export default function FacilityEdit() {
       setSelectedFacility("");
       return;
     }
+    history.push("/admin/edit_facility/" + e.target.value)
     setSelectedFacility(e.target.value);
     setFormValues(userFacilities.find(f => f.Coserial == e.target.value));
   }
@@ -31,13 +35,17 @@ export default function FacilityEdit() {
   }
 
   function facilityFormSubmitted() {
-    const postOrPatch = selectedFacility == "" ? ['', 'POST'] : [formValues.Coserial, 'PATCH'];
+    const postOrPatch = selectedFacility == "" ? ['', 'POST'] : [id, 'PATCH'];
+
+    const body = formValues;
+    body.OldCoserial = id;
+
     fetch('http://localhost:3002/facilities/' + postOrPatch[0], {
       method: postOrPatch[1],
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formValues)
+      body: JSON.stringify(body)
     }).then(response => response.json())
       .then(data => {
         if (data.errors) {
@@ -48,8 +56,11 @@ export default function FacilityEdit() {
           addingNew();
           setUserFacilities([...userFacilities, data]);
         }
-        else
-          setUserFacilities(userFacilities.map(f => f.Coserial == data.Coserial ? data : f));
+        else {
+          let oldFac = userFacilities.filter(f => f.Coserial != id);
+          setUserFacilities([...oldFac, data]);
+        }
+        history.push("/admin/edit_facility/" + data.Coserial)
       })
   }
 
