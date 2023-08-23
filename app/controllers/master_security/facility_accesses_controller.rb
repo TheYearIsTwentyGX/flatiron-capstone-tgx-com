@@ -18,6 +18,11 @@ class MasterSecurity::FacilityAccessesController < ApplicationController
     @facility_access.Access_Until = DateTime.now - 1.day
   end
 
+  def create
+    @access = FacilityAccess.create(facility_access_params)
+    @access.valid?
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
