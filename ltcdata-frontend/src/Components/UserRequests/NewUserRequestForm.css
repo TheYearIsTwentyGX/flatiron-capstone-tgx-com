@@ -1,6 +1,8 @@
 .new-user-form div input {
     margin: 10px;
     background: #67999a;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .new-user-form div label {
