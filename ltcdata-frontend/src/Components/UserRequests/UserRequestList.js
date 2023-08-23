@@ -5,9 +5,10 @@ import "./UserRequestList.css"
 import NewUserRequestForm from "./NewUserRequestForm";
 import Card from "../CommonUI/Card";
 import { UserFormContext } from "../../Context/UserFormContext";
+import { UserContext } from "../../Context/UserContext";
 
 function UserRequestList() {
-	const [userRequests, setUserRequests] = useState([]);
+	const { userRequests, setUserRequests } = useContext(UserContext);
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
 	const history = useHistory();
 	useEffect(() => {

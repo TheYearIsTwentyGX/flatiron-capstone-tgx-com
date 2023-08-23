@@ -22,8 +22,8 @@ function App() {
   }
 
   const SiteAdmin = [
-    { Name: "User Requests", Location: "/admin/user_requests" },
-    { Name: "Edit Current Facility", Location: "/admin/edit_facility" },
+    { Name: "User Management", Location: "/admin/user_requests" },
+    { Name: "Facility Management", Location: "/admin/edit_facility" },
   ]
 
   const CorporateInfo = [

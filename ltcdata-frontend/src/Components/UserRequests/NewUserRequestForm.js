@@ -26,13 +26,11 @@ export default function NewUserRequestForm({ request = null }) {
 				.then(response => response.json())
 				.then(data => setAccessProfiles(data));
 		}
-		console.log(formValues.Facilities);
 		if (Array.isArray(formValues.Facilities))
 			setSelectedFacilities(formValues.Facilities.map(x => x.Coserial));
 	}, []);
 
 	function updateValues(e) {
-		console.log("Updating formValues. Previous value: ", formValues)
 		setFormValues(formValues => ({ ...formValues, [e.target.name]: e.target.value }));
 	}
 
@@ -44,7 +42,6 @@ export default function NewUserRequestForm({ request = null }) {
 	}
 
 	function submitForm(e) {
-		console.log(formValues);
 		const postOrPatch = [null, undefined].includes(formValues.id) ? ['', 'POST'] : [formValues.id, 'PATCH'];
 		const body = formValues;
 		body.Facilities = selectedFacilities.join(',');
@@ -55,8 +52,12 @@ export default function NewUserRequestForm({ request = null }) {
 			},
 			body: JSON.stringify(body)
 		}).then(response => response.json())
-			.then(data => { console.log(data); return data; })
-			;
+			.then(data => {
+				let oldRequests = userRequests?.filter(x => x.id != data.id) ?? [];
+				setUserRequests([...oldRequests, data]);
+				resetFormValues();
+				history.push('/admin/user_requests');
+			});
 	}
 
 	return (

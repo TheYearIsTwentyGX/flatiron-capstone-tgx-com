@@ -10,3 +10,7 @@ h4 {
     flex-flow: row wrap;
     justify-content: space-evenly;
 }
+
+.cardContainer .card {
+    background: var(--bg-3);
+}

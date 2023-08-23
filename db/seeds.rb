@@ -20,10 +20,17 @@ end
 15.times do
   User.create!(Access_Profile: Faker::Number.between(from: 1, to: 12), User_Name: Faker::Internet.username, Full_Name: Faker::Name.name, Email_Address: Faker::Internet.email, password: "6988", password_confirmation: "6988")
 end
-
+User.create(User_Name: "admin", password: "admin", password_confirmation: "admin", Access_Profile: 1, Full_Name: "Administrator")
 User.create!(User_Name: "DylanH", Full_Name: "Dylan Hays", Email_Address: "twentygx@outlook.com", password: "6988", password_confirmation: "6988",
   Access_Profile: 2, Access_Until: "2021-12-31", Phone: "999-999-9999", Extension: 135, Credentials: "none")
 Facility.create!(Coserial: 4, Report_Name: "The Atriums", Discipline: "ALF", Phone: "9999999999", Fax: "9999999999", Address1: "1234 Main St", City: "Overland Park", State: "KS", Zip: "66212")
 Facility.create!(Coserial: 337, Report_Name: "Mission Chateau", Discipline: "ALF", Phone: "3373373337", Fax: "3373373377", Address1: "337 Main St", City: "Overland Park", State: "KS", Zip: "66212")
-FacilityAccess.create!(User_Name: "DylanH", Coserial: 4, Access_Until: "2024-12-31")
-FacilityAccess.create!(User_Name: "DylanH", Coserial: 337, Access_Until: "2024-12-31")
+
+25.times do
+  FacilityAccess.create(User_Name: User.all.sample.User_Name, Coserial: Facility.all.sample.Coserial, Access_Until: "2024-12-31")
+end
+
+Facility.all.each do |f|
+  FacilityAccess.create(User_Name: "admin", Coserial: f.Coserial, Access_Until: "2024-12-31")
+  FacilityAccess.create(User_Name: "DylanH", Coserial: f.Coserial, Access_Until: "2024-12-31")
+end

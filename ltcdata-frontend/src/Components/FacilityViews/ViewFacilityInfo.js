@@ -5,8 +5,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { UserContext } from "../../Context/UserContext";
 
 function ViewFacilityInfo() {
-	const { username } = useContext(UserContext);
-	const [userFacilities, setUserFacilities] = useState([]);
+	const { username, userFacilities, setUserFacilities } = useContext(UserContext);
 	const [selectedFacility, setSelectedFacility] = useState(null);
 	const history = useHistory();
 	useEffect(() => {
@@ -21,6 +20,8 @@ function ViewFacilityInfo() {
 	}, [username]);
 
 	function handleFacilityChange(e) {
+		if (e.target.value === null)
+			return;
 		let coserial = userFacilities.find(f => f.Report_Name === e.target.value).Coserial;
 		setSelectedFacility(userFacilities.find(x => x.Coserial == coserial));
 	}
@@ -28,28 +29,27 @@ function ViewFacilityInfo() {
 	return (
 		<div >
 			<div className="page-root">
-				<div>
-					<div>
-						<h1>Facility Information</h1>
-					</div>
+				<Card title="Facility Information">
+
 					<select className="select-dark" onChange={handleFacilityChange}>
+						<option value={null} />
 						{userFacilities?.map((facility) => (<option value={facility.Report_Name}>{facility.Report_Name}</option>))}
 					</select>
-				</div>
-				<div className="cardContainer">
-					<div className="general-flex card">
-						<Card title="Company Number:" value={selectedFacility?.Coserial ?? null} />
-						<Card title="Phone Number:" value={selectedFacility?.Phone ?? null} />
-						<Card title="Fax Number:" value={selectedFacility?.Fax ?? null} />
-						<Card title="Address:">
-							<div>
-								<p>{selectedFacility?.Address1 ?? null}</p>
-								<p>{selectedFacility?.Address2 ?? null}</p>
-								<p>{selectedFacility?.City ?? null} {selectedFacility?.State ?? null} {selectedFacility?.Zip ?? null}</p>
-							</div>
-						</Card>
+					<div className="cardContainer">
+						<div className="general-flex card">
+							<Card title="Company Number:" value={selectedFacility?.Coserial ?? null} />
+							<Card title="Phone Number:" value={selectedFacility?.Phone ?? null} />
+							<Card title="Fax Number:" value={selectedFacility?.Fax ?? null} />
+							<Card title="Address:">
+								<div>
+									<p>{selectedFacility?.Address1 ?? null}</p>
+									<p>{selectedFacility?.Address2 ?? null}</p>
+									<p>{selectedFacility?.City ?? null} {selectedFacility?.State ?? null} {selectedFacility?.Zip ?? null}</p>
+								</div>
+							</Card>
+						</div>
 					</div>
-				</div>
+				</Card>
 			</div>
 		</div>
 	);

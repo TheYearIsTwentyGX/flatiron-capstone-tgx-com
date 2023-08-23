@@ -1,4 +1,4 @@
-.card-root {
+.facilityEditor>.card-root {
   margin-top: 20px;
   background: var(--bg-3);
 }
@@ -31,4 +31,46 @@
   text-overflow: clip;
   background: var(--bg-3);
   text-shadow: -1px -1px 0 rgba(15, 73, 168, 0);
+}
+
+.submit-button {
+  box-sizing: content-box;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid gray;
+  padding: 10px 20px;
+  color: rgba(0, 0, 0, 1);
+  text-align: center;
+  background: #9acccd;
+  text-shadow: -1px -1px 0 rgba(15, 73, 168, 0);
+  margin: auto;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+#facility-selector {
+  background: var(--bg-1);
+}
+
+.error-card {
+  flex-flow: row nowrap;
+  justify-content: center;
+  border: 1px solid black;
+  background: var(--bg-2);
+  padding: 20px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px 2px rgba(0, 0, 0, 0.6);
 }

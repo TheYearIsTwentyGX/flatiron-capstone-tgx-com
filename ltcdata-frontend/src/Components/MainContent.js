@@ -9,24 +9,8 @@ import FacilityEdit from './FacilityViews/FacilityEdit';
 
 function MainContent() {
 	const { username, setUsername, userFacilities, setUserFacilities } = useContext(UserContext);
-	const [selectedFacility, setSelectedFacility] = useState({});
 
-	function facilityFormSubmitted(e, isNewFacility) {
-		const postOrPatch = isNewFacility ? ['', 'POST'] : [e.Coserial, 'PATCH'];
-		fetch('http://localhost:3002/facilities/' + postOrPatch[0], {
-			method: postOrPatch[1],
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(e)
-		}).then(response => response.json())
-			.then(data => {
-				if (isNewFacility)
-					setUserFacilities([...userFacilities, data.Coserial]);
-				else
-					setUserFacilities(userFacilities.map(f => f.Coserial == data.Coserial ? data : f));
-			})
-	}
+
 
 	return (
 		<div className='proot'>
@@ -43,7 +27,7 @@ function MainContent() {
 					</UserFormProvider>
 				</Route>
 				<Route path="/admin/edit_facility">
-					<FacilityEdit SelectedFacility={selectedFacility} submitFacility={facilityFormSubmitted} />
+					<FacilityEdit />
 				</Route>
 			</Switch>
 		</div>

@@ -6,13 +6,13 @@ class Facility < ActiveRecord::Base
   has_many :users, through: :active_accesses, foreign_key: "Coserial", primary_key: "Coserial"
 
   validates :Coserial,
-    presence: {message: "Coserial is Required"},
-    uniqueness: {message: "Coserial must be unique. %{value} is already taken."},
-    numericality: {only_integer: true, message: "Coserial Must be an Integer"}
+    presence: {message: "is Required"},
+    uniqueness: {message: "must be unique. %{value} is already taken."},
+    numericality: {only_integer: true, message: "Must be an Integer"}
 
-  validates :Report_Name, presence: {message: "Company Name is Required"}
-  validates :Phone, :Fax, allow_nil: true, allow_blank: true, format: {with: /\A\d{10}\z/, message: "Phone Number and Fax Number must be entered with no spaces or dashes"}
-  validates :State, allow_blank: true, allow_nil: true, format: {with: /\A[A-Z]{2}\z/, message: "State must be entered as a 2 letter abbreviation"}
+  validates :Report_Name, presence: {message: " is Required"}
+  validates :Phone, :Fax, allow_nil: true, allow_blank: true, format: {with: /\A\d{10}\z/, message: " Number and Fax Number must be entered with no spaces or dashes"}
+  validates :State, allow_blank: true, allow_nil: true, format: {with: /\A[A-Z]{2}\z/, message: " must be entered as a 2 letter abbreviation"}
   validate :AllAddressBlank?
 
   def AllAddressBlank?

@@ -1,8 +1,6 @@
 .new-user-form div input {
     margin: 10px;
     background: #67999a;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .new-user-form div label {
@@ -14,11 +12,8 @@
     justify-content: space-evenly;
 }
 
-.multi-select {
-    max-height: 550px;
-    height: 650px;
-    width: 350px;
-    background: var(--bg-3)
+.new-user-form select {
+    background: var(--bg-3);
 }
 
 .arrow {

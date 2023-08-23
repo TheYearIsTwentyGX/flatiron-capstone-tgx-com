@@ -1,6 +1,7 @@
 class MasterSecurity::FacilityAccessesController < ApplicationController
   before_action :set_facility_access, only: %i[show update destroy]
   before_action { ApplicationController.authenticate(session) }
+  rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
 
   # GET /facility_accesses
   def index
@@ -30,8 +31,12 @@ class MasterSecurity::FacilityAccessesController < ApplicationController
     @facility_access = FacilityAccess.find(params[:id])
   end
 
+  def render_unprocessable_entity_response
+    render json: {errors: @access.errors.full_messages}, status: :unprocessable_entity
+  end
+
   # Only allow a list of trusted parameters through.
   def facility_access_params
-    params.require(:facility_access).permit(:ID, :CO_Serial, :User_ID, :Access_Until)
+    params.require(:facility_access).permit(:ID, :Coserial, :User_Name, :Access_Until)
   end
 end
