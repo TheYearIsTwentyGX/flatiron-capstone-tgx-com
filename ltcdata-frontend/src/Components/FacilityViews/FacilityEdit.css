@@ -1,0 +1,15 @@
+.card-root {
+  margin-top: 20px;
+}
+
+.card {
+  border: 1px solid black;
+  background: var(--bg-3);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-textblock {
+  margin: 10px;
+  display: block;
+}
