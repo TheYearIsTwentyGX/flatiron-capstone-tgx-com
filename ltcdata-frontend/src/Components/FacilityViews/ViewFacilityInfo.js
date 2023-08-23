@@ -14,7 +14,7 @@ function ViewFacilityInfo() {
 			history.push('/');
 			return;
 		}
-		fetch("http://localhost:3002/facilities")
+		fetch("http://localhost:3002/users/" + username + "/facilities")
 			.then(response => response.json())
 			.then(data => { console.log(data); return data; })
 			.then(data => { setUserFacilities(data); });

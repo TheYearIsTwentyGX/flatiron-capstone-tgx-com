@@ -6,7 +6,7 @@ import Card from '../CommonUI/Card';
 import { UserFormContext } from '../../Context/UserFormContext';
 
 export default function NewUserRequestForm({ request = null }) {
-	const { username, user, accessProfiles, setAccessProfiles, editUser, setEditUser } = useContext(UserContext);
+	const { username, accessProfiles, setAccessProfiles, userRequests, setUserRequests, } = useContext(UserContext);
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
 	const [possibleFacilities, setPossibleFacilities] = useState([]);
 	const [selectedFacilities, setSelectedFacilities] = useState([]);
@@ -55,7 +55,8 @@ export default function NewUserRequestForm({ request = null }) {
 			},
 			body: JSON.stringify(body)
 		}).then(response => response.json())
-			.then(data => { console.log(data); return data; });
+			.then(data => { console.log(data); return data; })
+			;
 	}
 
 	return (

@@ -20,8 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_001613) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "facilities", force: :cascade do |t|
-    t.integer "Coserial"
+  create_table "facilities", primary_key: "Coserial", force: :cascade do |t|
     t.string "Report_Name"
     t.string "Discipline"
     t.datetime "created_at", null: false

@@ -8,8 +8,9 @@ export function UserProvider({ children }) {
     const [permissions, setPermissions] = useState(null);
     const [accessProfiles, setAccessProfiles] = useState(null);
     const [editedUser, setEditedUser] = useState(null);
+    const [userFacilities, setUserFacilities] = useState([]);
 
-    return (<UserContext.Provider value={{ username, setUsername, user, setUser, permissions, setPermissions, accessProfiles, setAccessProfiles, editedUser, setEditedUser }}>{children}</UserContext.Provider>);
+    return (<UserContext.Provider value={{ username, setUsername, user, setUser, permissions, setPermissions, accessProfiles, setAccessProfiles, editedUser, setEditedUser, userFacilities, setUserFacilities }}>{children}</UserContext.Provider>);
 }
 
 export { UserContext }

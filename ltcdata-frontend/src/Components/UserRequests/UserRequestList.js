@@ -57,16 +57,7 @@ function UserRequestList() {
 				</table>
 			</Card>
 
-			<Switch>
-				<Route path="/admin/user_requests/new">
-					<NewUserRequestForm request={null} />
-				</Route>
-				<Route path="/admin/user_requests/:id">
-					<div className="form-section">
-						<NewUserRequestForm />
-					</div>
-				</Route>
-			</Switch>
+			<NewUserRequestForm request={null} />
 		</div>
 	</div>)
 }
