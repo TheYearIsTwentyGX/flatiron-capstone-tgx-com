@@ -16,7 +16,7 @@ class MasterSecurity::FacilityAccessesController < ApplicationController
   end
 
   def destroy
-    @facility_access.Access_Until = DateTime.now - 1.day
+    @facility_access.destroy
   end
 
   def update
@@ -42,6 +42,6 @@ class MasterSecurity::FacilityAccessesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def facility_access_params
-    params.require(:facility_access).permit(:ID, :Coserial, :User_Name, :Access_Until)
+    params.require(:facility_access).permit(:id, :facility_id, :user_id, :Access_Until, :Profile)
   end
 end

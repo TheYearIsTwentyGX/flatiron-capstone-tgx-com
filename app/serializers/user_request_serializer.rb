@@ -1,17 +1,17 @@
 class UserRequestSerializer < ActiveModel::Serializer
   attributes :id, :Full_Name, :User_Name, :Access_Profile, :created_at, :Facilities, :Credentials, :Coserials
   def Access_Profile
-		{ 
+    {
       name: object.access_profile.Friendly_Name,
       id: object.access_profile.id
     }
   end
 
   def Coserials
-    object.facilities.pluck(:Coserial)
+    object.facilities.pluck(:id)
   end
 
   def Facilities
-		object.facilities.select(:Report_Name, :Coserial)
+    object.facilities.select(:Report_Name, :id)
   end
 end

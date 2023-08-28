@@ -22,8 +22,8 @@ function ViewFacilityInfo() {
 	function handleFacilityChange(e) {
 		if (e.target.value === null)
 			return;
-		let coserial = userFacilities.find(f => f.Report_Name === e.target.value).Coserial;
-		setSelectedFacility(userFacilities.find(x => x.Coserial == coserial));
+		let coserial = userFacilities.find(f => f.Report_Name === e.target.value).id;
+		setSelectedFacility(userFacilities.find(x => x.id == coserial));
 	}
 
 	return (
@@ -37,7 +37,7 @@ function ViewFacilityInfo() {
 					</select>
 					<div className="cardContainer">
 						<div className="general-flex card">
-							<Card title="Company Number:" value={selectedFacility?.Coserial ?? null} />
+							<Card title="Company Number:" value={selectedFacility?.id ?? null} />
 							<Card title="Phone Number:" value={selectedFacility?.Phone ?? null} />
 							<Card title="Fax Number:" value={selectedFacility?.Fax ?? null} />
 							<Card title="Address:">

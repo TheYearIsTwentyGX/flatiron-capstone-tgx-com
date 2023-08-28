@@ -1,3 +1,3 @@
 class Facilities::BasicInfoSerializer < ActiveModel::Serializer
-  attributes :Co_Serial, :Report_Name
+  attributes :id, :Report_Name
 end

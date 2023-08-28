@@ -16,9 +16,9 @@ scope "/facilities" do
     end
     # Cash Sheets
     collection do
-      get "/:Coserial/book_balance", controller: "cash/procedures", action: "book_balance"
-      get "/:Coserial/bank_balance", controller: "cash/procedures", action: "bank_balance"
-      get "/:Coserial/outstanding_checks", controller: "cash/procedures", action: "outstanding_checks"
+      get "/:id/book_balance", controller: "cash/procedures", action: "book_balance"
+      get "/:id/bank_balance", controller: "cash/procedures", action: "bank_balance"
+      get "/:id/outstanding_checks", controller: "cash/procedures", action: "outstanding_checks"
     end
   end
   scope module: "it" do
@@ -27,10 +27,10 @@ scope "/facilities" do
     get "/:id/tg_inventory", to: "inventory#tg_facility_items"
   end
   scope module: "gen_info" do
-    get "/:Coserial/record_requests", to: "record_requests#index"
-    get "/:Coserial/lawsuits", to: "lawsuits#index"
-    get "/:Coserial/lrr", to: "lawsuits#lrr"
-    post "/:Coserial/lawsuits", to: "lawsuits#create"
-    patch "/:Coserial/lawsuits/:id", to: "lawsuits#update"
+    get "/:id/record_requests", to: "record_requests#index"
+    get "/:id/lawsuits", to: "lawsuits#index"
+    get "/:id/lrr", to: "lawsuits#lrr"
+    post "/:id/lawsuits", to: "lawsuits#create"
+    patch "/:id/lawsuits/:id", to: "lawsuits#update"
   end
 end

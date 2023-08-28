@@ -27,7 +27,6 @@ function Login() {
 			.then(response => {
 				if (response.status == 200) {
 					history.push('/home')
-					return response.json()
 				}
 				else
 					setFailed("block")

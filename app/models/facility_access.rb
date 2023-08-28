@@ -1,6 +1,7 @@
 class FacilityAccess < ActiveRecord::Base
-  belongs_to :facility, primary_key: "Coserial", foreign_key: "Coserial"
-  belongs_to :user, primary_key: "User_Name", foreign_key: "User_Name"
+  belongs_to :facility
+  belongs_to :user
+  has_one :access_profile, foreign_key: "id", primary_key: "Profile", class_name: "AccessProfile"
 
-  scope :active, -> { where("[Facility_Access].Access_Until > ?", DateTime.now) }
+  scope :active, -> { where("[facility_accesses].Access_Until > ?", DateTime.now) }
 end

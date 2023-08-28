@@ -20,27 +20,20 @@ class MasterSecurity::FacilitiesController < ApplicationController
 
   def create
     @facility = Facility.new(facility_params)
-
     if @facility.save
-      if FacilityAccess.create(Coserial: @facility.Coserial, User_Name: session[:user_id], Access_Until: DateTime.new(2999, 12, 31))
-        render json: @facility, status: :created
-      else
-        render json: {error: "Could not create facility access!"}, status: :internal_server_error
-      end
-    else
-      render json: {errors: @facility.errors.full_messages}, status: :unprocessable_entity
+      render json: @facility, status: :created
     end
   end
 
   def update
     if params[:OldCoserial].present?
-      @facility = Facility.find_by! Coserial: params[:id]
+      @facility = Facility.find_by! id: params[:id]
     else
       set_facility
     end
 
     if @facility.update(facility_params)
-      FacilityAccess.where(Coserial: params[:OldCoserial]).update_all(Coserial: @facility.Coserial)
+      FacilityAccess.where(id: params[:OldCoserial]).update_all(id: @facility.id)
       render json: @facility
     else
       render json: {errors: @facility.errors.full_messages}, status: :unprocessable_entity
@@ -51,7 +44,7 @@ class MasterSecurity::FacilitiesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_facility
-    @facility = Facility.find_by! Coserial: params[:id]
+    @facility = Facility.find_by! id: params[:id]
   end
 
   def render_not_found_response
@@ -60,6 +53,6 @@ class MasterSecurity::FacilitiesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def facility_params
-    params.require(:facility).permit(:Report_Name, :Speed_Dial, :State, :Address1, :Address2, :City, :Zip, :Phone, :Fax, :Coserial, :Discipline, :created_at, :updated_at)
+    params.require(:facility).permit(:Report_Name, :Speed_Dial, :State, :Address1, :Address2, :City, :Zip, :Phone, :Fax, :id, :Discipline, :created_at, :updated_at)
   end
 end

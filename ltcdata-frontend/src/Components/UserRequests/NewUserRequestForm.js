@@ -26,8 +26,10 @@ export default function NewUserRequestForm({ request = null }) {
 				.then(response => response.json())
 				.then(data => setAccessProfiles(data));
 		}
-		if (Array.isArray(formValues.Facilities))
-			setSelectedFacilities(formValues.Facilities.map(x => x.Coserial));
+		if (Array.isArray(formValues.Facilities)) {
+			console.log(formValues.Facilities.map(x => x.id));
+			setSelectedFacilities(formValues.Facilities.map(x => x.id));
+		}
 	}, []);
 
 	function updateValues(e) {
@@ -38,7 +40,7 @@ export default function NewUserRequestForm({ request = null }) {
 		if (e.target.checked)
 			setSelectedFacilities([...selectedFacilities, e.target.value])
 		else
-			setSelectedFacilities(selectedFacilities.filter(facility => facility.Coserial != e.target.value));
+			setSelectedFacilities(selectedFacilities.filter(facility => facility.id != e.target.value));
 	}
 
 	function submitForm(e) {
@@ -53,7 +55,8 @@ export default function NewUserRequestForm({ request = null }) {
 			body: JSON.stringify(body)
 		}).then(response => response.json())
 			.then(data => {
-				let oldRequests = userRequests?.filter(x => x.id != data.id) ?? [];
+				console.log(data);
+				let oldRequests = userRequests?.filter(x => x.id != data.id);
 				setUserRequests([...oldRequests, data]);
 				resetFormValues();
 				history.push('/admin/user_requests');
@@ -100,7 +103,16 @@ export default function NewUserRequestForm({ request = null }) {
 
 					<div>
 						<h3>Facility Access</h3>
-						{possibleFacilities.map(x => (<div><input type='checkbox' value={x.Coserial} onChange={updateSelection} />{x.Report_Name}</div>))}
+						{possibleFacilities.map(x => (<div>
+							<input type='checkbox' value={x.id} onChange={updateSelection} />
+							{x.Report_Name}
+							<select className='select-dark'>
+								<option />
+								{
+									(accessProfiles != null && accessProfiles != undefined && accessProfiles.length > 0 ? accessProfiles.map(y => (<option value={y.id}>{y.Friendly_Name}</option>)) : null)
+								}
+							</select>
+						</div>))}
 					</div>
 				</div>
 				<div className='button' onClick={submitForm}>

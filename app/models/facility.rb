@@ -1,11 +1,9 @@
 class Facility < ActiveRecord::Base
-  self.primary_key = "Coserial"
+  has_many :facility_accesses
+  has_many :active_accesses, -> { active }, class_name: "FacilityAccess"
+  has_many :users, through: :active_accesses
 
-  has_many :facility_accesses, foreign_key: "Coserial", primary_key: "Coserial"
-  has_many :active_accesses, -> { active }, class_name: "FacilityAccess", foreign_key: "Coserial", primary_key: "Coserial"
-  has_many :users, through: :active_accesses, foreign_key: "Coserial", primary_key: "Coserial"
-
-  validates :Coserial,
+  validates :id,
     presence: {message: "is Required"},
     uniqueness: {message: "must be unique. %{value} is already taken."},
     numericality: {only_integer: true, message: "Must be an Integer"}

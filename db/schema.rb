@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_15_001613) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_28_222808) do
   create_table "access_profiles", force: :cascade do |t|
     t.string "Friendly_Name"
     t.string "Department"
@@ -20,7 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_001613) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "facilities", primary_key: "Coserial", force: :cascade do |t|
+  create_table "facilities", force: :cascade do |t|
     t.string "Report_Name"
     t.string "Discipline"
     t.datetime "created_at", null: false
@@ -37,9 +37,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_001613) do
   create_table "facility_accesses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "User_Name"
-    t.integer "Coserial"
     t.date "Access_Until"
+    t.integer "facility_id", null: false
+    t.integer "user_id", null: false
+    t.integer "profile"
+    t.index ["facility_id"], name: "index_facility_accesses_on_facility_id"
+    t.index ["user_id"], name: "index_facility_accesses_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -56,4 +59,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_15_001613) do
     t.string "Credentials"
   end
 
+  add_foreign_key "facility_accesses", "facilities"
+  add_foreign_key "facility_accesses", "users"
 end
