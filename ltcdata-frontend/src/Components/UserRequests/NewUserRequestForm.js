@@ -6,20 +6,19 @@ import Card from '../CommonUI/Card';
 import { UserFormContext } from '../../Context/UserFormContext';
 
 export default function NewUserRequestForm({ request = null }) {
-	const { username, accessProfiles, setAccessProfiles, userRequests, setUserRequests, } = useContext(UserContext);
+	const { username, accessProfiles, setAccessProfiles, userRequests, setUserRequests, userFacilities } = useContext(UserContext);
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
-	const [possibleFacilities, setPossibleFacilities] = useState([]);
 	const [selectedFacilities, setSelectedFacilities] = useState([]);
-	const [newOrOld, setNewOrOld] = useState(true);
+	const [selectedProfiles, setSelectedProfiles] = useState({});
 	const history = useHistory();
-	const location = useLocation();
+	//useEffect runs after the first render, and then again whenever the values in the array change
 	useEffect(() => {
+		console.log(formValues);
+
+
 		if (username === "") {
 			history.push('/');
 		}
-		fetch('http://localhost:3002/users/' + username + '/facilities')
-			.then(response => response.json())
-			.then(data => setPossibleFacilities(data));
 
 		if (accessProfiles == null) {
 			fetch('http://localhost:3002/access_profiles')
@@ -27,26 +26,40 @@ export default function NewUserRequestForm({ request = null }) {
 				.then(data => setAccessProfiles(data));
 		}
 		if (Array.isArray(formValues.Facilities)) {
-			console.log(formValues.Facilities.map(x => x.id));
 			setSelectedFacilities(formValues.Facilities.map(x => x.id));
+			let newSelectedProfiles = {};
+			formValues.Facilities.forEach(x => newSelectedProfiles[x.id] = x.Access_Profile);
+			setSelectedProfiles(newSelectedProfiles);
 		}
 	}, []);
 
-	function updateValues(e) {
-		setFormValues(formValues => ({ ...formValues, [e.target.name]: e.target.value }));
+	function updateMainValues(e) {
+		let oldVals = formValues;
+		oldVals[e.target.name] = e.target.value;
+		setFormValues(oldVals);
 	}
 
-	function updateSelection(e) {
+	function updateFacilities(e) {
+		let oldFacs = formValues.Facilities;
 		if (e.target.checked)
-			setSelectedFacilities([...selectedFacilities, e.target.value])
+			oldFacs.push({ id: e.target.value, Access_Profile: "" });
 		else
-			setSelectedFacilities(selectedFacilities.filter(facility => facility.id != e.target.value));
+			oldFacs = oldFacs.filter(x => x.id != e.target.value);
+		setFormValues({ ...formValues, Facilities: oldFacs });
+	}
+
+	function updateProfileForFacility(e) {
+		let oldProfs = formValues.Facilities;
+		if (oldProfs.some(x => x.id == e.target.name)) {
+			oldProfs.find(x => x.id == e.target.name).Access_Profile = e.target.value;
+			setFormValues({ ...formValues, Facilities: oldProfs });
+		}
+		console.log(oldProfs);
 	}
 
 	function submitForm(e) {
 		const postOrPatch = [null, undefined].includes(formValues.id) ? ['', 'POST'] : [formValues.id, 'PATCH'];
 		const body = formValues;
-		body.Facilities = selectedFacilities.join(',');
 		fetch('http://localhost:3002/users/' + postOrPatch[0], {
 			method: postOrPatch[1],
 			headers: {
@@ -69,51 +82,44 @@ export default function NewUserRequestForm({ request = null }) {
 				<div className='new-user-form'>
 					<div className='standard-flex'>
 						<div>
-							<label for='Full_Name'>Full Name</label>
-							<input onChange={updateValues} value={formValues.Full_Name} className='login-textblock' name='Full_Name' id='Full_Name' type='text' />
+							<label htmlFor='Full_Name'>Full Name</label>
+							<input onChange={updateMainValues} value={formValues.Full_Name} className='login-textblock' name='Full_Name' id='Full_Name' type='text' />
 						</div>
 						<div>
 
-							<label for='User_Name'>Username</label>
-							<input onChange={updateValues} value={formValues.User_Name} className='login-textblock' name='User_Name' id='User_Name' type='text' />
+							<label htmlFor='User_Name'>Username</label>
+							<input onChange={updateMainValues} value={formValues.User_Name} className='login-textblock' name='User_Name' id='User_Name' type='text' />
 						</div>
 					</div>
 
 					<div className='standard-flex'>
 						<div>
-							<label for='password'>Password</label>
-							<input onChange={updateValues} value={formValues.password} className='login-textblock' name='password' id='password' type='password' />
+							<label htmlFor='password'>Password</label>
+							<input onChange={updateMainValues} value={formValues.password} className='login-textblock' name='password' id='password' type='password' />
 						</div>
 						<div>
-							<label for='password_confirmation'>Password Confirmation</label>
-							<input onChange={updateValues} value={formValues.password_confirmation} className='login-textblock' name='password_confirmation' id='password_confirmation' type='password' />
+							<label htmlFor='password_confirmation'>Password Confirmation</label>
+							<input onChange={updateMainValues} value={formValues.password_confirmation} className='login-textblock' name='password_confirmation' id='password_confirmation' type='password' />
 						</div>
-					</div>
-
-					<div>
-						<label for='credentials'>Credentials</label>
-						<input onChange={updateValues} value={formValues.Credentials} className='login-textblock' name='Credentials' id='Credentials' type='text' />
-					</div>
-					<div>
-						<label for='position'>Position</label>
-						<select name='Access_Profile' className='select-dark' value={formValues.Access_Profile} onChange={updateValues}>
-							{accessProfiles === null || accessProfiles.length === 0 ? null : accessProfiles?.map((accessProfile) => (<option value={accessProfile.id}>{accessProfile.Friendly_Name}</option>))}
-						</select>
 					</div>
 
 					<div>
 						<h3>Facility Access</h3>
-						{possibleFacilities.map(x => (<div>
-							<input type='checkbox' value={x.id} onChange={updateSelection} />
-							{x.Report_Name}
-							<select className='select-dark'>
-								<option />
-								{
-									(accessProfiles != null && accessProfiles != undefined && accessProfiles.length > 0 ? accessProfiles.map(y => (<option value={y.id}>{y.Friendly_Name}</option>)) : null)
-								}
-							</select>
-						</div>))}
+						{userFacilities.map(x => (
+							<div key={x.id}>
+								<input type='checkbox' value={x.id} onChange={updateFacilities} checked={formValues.Facilities.filter(f => f.id == x.id && f.Access_Profile != null).length > 0} />
+
+								{x.Report_Name}
+								<select className='select-dark' value={formValues.Facilities.find(z => z.id?.toString() == x.id?.toString())?.Access_Profile ?? ""} name={x.id} onChange={updateProfileForFacility}>
+									<option value="" />
+									{
+										(accessProfiles != null && accessProfiles != undefined && accessProfiles.length > 0 ? accessProfiles.map(y => (<option key={y.Friendly_Name + "_" + y.id} value={y.id}>{y.Friendly_Name}</option>)) : null)
+									}
+								</select>
+							</div>))}
 					</div>
+
+
 				</div>
 				<div className='button' onClick={submitForm}>
 					Submit User

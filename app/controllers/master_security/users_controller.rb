@@ -21,18 +21,22 @@ class MasterSecurity::UsersController < ApplicationController
   end
 
   def update_facilities
-    new_facilities = params[:Facilities].split(",")
-    @user.facilities.where.not(id: new_facilities).destroy_all
+    requested_facilities = params[:Facilities].pluck(:id)
+    current = @user.facility_accesses.where.not(facility_id: requested_facilities)
+    current.destroy_all
 
-    new_facilities.each do |facility|
-      access = FacilityAccess.find_or_create_by!(user_id: @user.id, facility_id: facility)
-      access.Access_Until = Date.new(2999, 12, 31)
-      access.save
+    params[:Facilities].each do |facility|
+      puts facility
+      fac_access_params = {user_id: @user.id, facility_id: facility[:id].to_i}
+      access = FacilityAccess.find_or_initialize_by(fac_access_params)
+      access.profile = facility[:Access_Profile] if access.new_record?
+      access.save!
     end
   end
 
   def create
     @user = User.create!(user_params)
+    update_facilities
     render json: @user, status: :created, serializer: UserRequestSerializer
   end
 

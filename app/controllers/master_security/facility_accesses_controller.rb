@@ -42,6 +42,6 @@ class MasterSecurity::FacilityAccessesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def facility_access_params
-    params.require(:facility_access).permit(:id, :facility_id, :user_id, :Access_Until, :Profile)
+    params.require(:facility_access).permit(:id, :facility_id, :user_id, :Access_Until, :profile)
   end
 end

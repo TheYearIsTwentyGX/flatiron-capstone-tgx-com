@@ -37,7 +37,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_28_222808) do
   create_table "facility_accesses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "Access_Until"
     t.integer "facility_id", null: false
     t.integer "user_id", null: false
     t.integer "profile"
@@ -49,7 +48,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_28_222808) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "User_Name"
-    t.integer "Access_Profile"
     t.string "password_digest"
     t.string "Full_Name"
     t.date "Access_Until"

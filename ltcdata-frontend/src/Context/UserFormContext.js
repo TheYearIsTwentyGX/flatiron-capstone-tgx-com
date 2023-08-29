@@ -10,7 +10,7 @@ const FormValues = {
     password_confirmation: "",
     Credentials: "",
     Access_Profile: 1,
-    Facilities: ""
+    Facilities: [{}]
 }
 
 export function UserFormProvider({ children }) {
