@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Switch, Route, useLocation } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
 import { useHistory } from "react-router";
 import "./UserRequestList.css"
 import NewUserRequestForm from "./NewUserRequestForm";
@@ -11,7 +10,6 @@ function UserRequestList() {
 	const { userRequests, setUserRequests } = useContext(UserContext);
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
 	const history = useHistory();
-	let editedRequest = null;
 	useEffect(() => {
 		fetch("http://localhost:3002/users")
 			.then(response => response.json())
@@ -20,7 +18,6 @@ function UserRequestList() {
 
 	function newRequest() {
 		resetFormValues();
-		editedRequest = null;
 		history.push("/admin/user_requests/new");
 	}
 
@@ -29,8 +26,6 @@ function UserRequestList() {
 		const txt = row.innerText;
 		const req = userRequests.find(x => x.User_Name == txt);
 		setFormValues(req);
-		editedRequest = req;
-		console.log("Going to user form with values: ", req)
 		history.push(`/admin/user_requests/${txt}`)
 	}
 	return (<div className="page-root">
@@ -59,8 +54,7 @@ function UserRequestList() {
 					</tbody>
 				</table>
 			</Card>
-
-			<NewUserRequestForm request={null} />
+			<NewUserRequestForm />
 		</div>
 	</div>)
 }

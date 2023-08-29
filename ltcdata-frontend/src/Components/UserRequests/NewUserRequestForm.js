@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import './NewUserRequestForm.css';
 import { UserContext } from '../../Context/UserContext';
 import { useHistory, useLocation } from 'react-router-dom';
 import Card from '../CommonUI/Card';
 import { UserFormContext } from '../../Context/UserFormContext';
 
-export default function NewUserRequestForm({ request = null }) {
+export default function NewUserRequestForm() {
 	const { username, accessProfiles, setAccessProfiles, userRequests, setUserRequests, userFacilities } = useContext(UserContext);
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
 	const history = useHistory();
