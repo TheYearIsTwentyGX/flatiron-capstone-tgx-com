@@ -25,7 +25,8 @@ function UserRequestList() {
 	}
 
 	function goToUserRequest(e) {
-		const txt = e.target.parentNode.querySelector("td:nth-of-type(2)").innerText;
+		let row = e.target.parentNode.querySelector("td:nth-of-type(2)") != null ? e.target.parentNode.querySelector("td:nth-of-type(2)") : e.target.parentNode.parentNode.querySelector("td:nth-of-type(2)");
+		const txt = row.innerText;
 		const req = userRequests.find(x => x.User_Name == txt);
 		setFormValues(req);
 		editedRequest = req;
