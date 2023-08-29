@@ -8,37 +8,29 @@ import { UserFormContext } from '../../Context/UserFormContext';
 export default function NewUserRequestForm({ request = null }) {
 	const { username, accessProfiles, setAccessProfiles, userRequests, setUserRequests, userFacilities } = useContext(UserContext);
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
-	const [selectedFacilities, setSelectedFacilities] = useState([]);
-	const [selectedProfiles, setSelectedProfiles] = useState({});
 	const history = useHistory();
-	//useEffect runs after the first render, and then again whenever the values in the array change
+	//useEffect runs after the first render
 	useEffect(() => {
-		console.log(formValues);
-
-
+		//Push back to login if no username
 		if (username === "") {
 			history.push('/');
 		}
-
+		//Get the list of AccessProfiles, if it hasn't been fetched yet
 		if (accessProfiles == null) {
 			fetch('http://localhost:3002/access_profiles')
 				.then(response => response.json())
 				.then(data => setAccessProfiles(data));
 		}
-		if (Array.isArray(formValues.Facilities)) {
-			setSelectedFacilities(formValues.Facilities.map(x => x.id));
-			let newSelectedProfiles = {};
-			formValues.Facilities.forEach(x => newSelectedProfiles[x.id] = x.Access_Profile);
-			setSelectedProfiles(newSelectedProfiles);
-		}
 	}, []);
 
+	//Handles the main textboxes
 	function updateMainValues(e) {
 		let oldVals = formValues;
 		oldVals[e.target.name] = e.target.value;
 		setFormValues(oldVals);
 	}
 
+	//Handles the checkboxes for facilities
 	function updateFacilities(e) {
 		let oldFacs = formValues.Facilities;
 		if (e.target.checked)
@@ -48,24 +40,23 @@ export default function NewUserRequestForm({ request = null }) {
 		setFormValues({ ...formValues, Facilities: oldFacs });
 	}
 
+	//Handles the dropdowns for facility access profiles
 	function updateProfileForFacility(e) {
 		let oldProfs = formValues.Facilities;
 		if (oldProfs.some(x => x.id == e.target.name)) {
 			oldProfs.find(x => x.id == e.target.name).Access_Profile = e.target.value;
 			setFormValues({ ...formValues, Facilities: oldProfs });
 		}
-		console.log(oldProfs);
 	}
 
 	function submitForm(e) {
 		const postOrPatch = [null, undefined].includes(formValues.id) ? ['', 'POST'] : [formValues.id, 'PATCH'];
-		const body = formValues;
 		fetch('http://localhost:3002/users/' + postOrPatch[0], {
 			method: postOrPatch[1],
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(body)
+			body: JSON.stringify(formValues)
 		}).then(response => response.json())
 			.then(data => {
 				console.log(data);
@@ -112,9 +103,7 @@ export default function NewUserRequestForm({ request = null }) {
 								{x.Report_Name}
 								<select className='select-dark' value={formValues.Facilities.find(z => z.id?.toString() == x.id?.toString())?.Access_Profile ?? ""} name={x.id} onChange={updateProfileForFacility}>
 									<option value="" />
-									{
-										(accessProfiles != null && accessProfiles != undefined && accessProfiles.length > 0 ? accessProfiles.map(y => (<option key={y.Friendly_Name + "_" + y.id} value={y.id}>{y.Friendly_Name}</option>)) : null)
-									}
+									{(accessProfiles != null && accessProfiles != undefined && accessProfiles.length > 0 ? accessProfiles.map(y => (<option key={y.Friendly_Name + "_" + y.id} value={y.id}>{y.Friendly_Name}</option>)) : null)}
 								</select>
 							</div>))}
 					</div>
