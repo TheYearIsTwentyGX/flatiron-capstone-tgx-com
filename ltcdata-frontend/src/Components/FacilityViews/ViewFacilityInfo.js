@@ -15,8 +15,7 @@ function ViewFacilityInfo() {
 		}
 		fetch("http://localhost:3002/users/" + username + "/facilities")
 			.then(response => response.json())
-			.then(data => { console.log(data); return data; })
-			.then(data => { setUserFacilities(data); });
+			.then(data => setUserFacilities(data));
 	}, [username]);
 
 	function handleFacilityChange(e) {
