@@ -19,8 +19,9 @@ export default function FacilityEdit() {
 	}
 
 	function editedFacilityChanged(e) {
-		if (e.target.value === "") {
-			setSelectedFacility("");
+		if (e.target.value === "" || e.target.value === null || e.target.value === undefined) {
+			history.push("/admin/edit_facility/");
+			addingNew();
 			return;
 		}
 		history.push("/admin/edit_facility/" + e.target.value)

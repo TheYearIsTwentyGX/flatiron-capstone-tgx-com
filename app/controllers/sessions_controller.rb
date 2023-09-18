@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_wrong_credentials
-
+  skip_before_action :authorize, only: [:create, :show]
   def show
     if session.include? :user_id
       render json: User.find(session[:user_id]), serializer: UserRequestSerializer, status: :ok
@@ -14,7 +14,6 @@ class SessionsController < ApplicationController
     # Find user
     user = User.find_by!(User_Name: params[:Username])
     if user&.authenticate(params[:Password])
-      puts "HI THERE"
       session[:user_id] = user.id
       cookies[:user_id] = user.id
       render json: user, status: :created
