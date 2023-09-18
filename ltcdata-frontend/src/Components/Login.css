@@ -34,6 +34,10 @@
   margin: 0px;
 }
 
+.form .login-textblock {
+  border: 1px solid gray;
+}
+
 .formDiv {
   padding: 15px;
   align-self: normal;

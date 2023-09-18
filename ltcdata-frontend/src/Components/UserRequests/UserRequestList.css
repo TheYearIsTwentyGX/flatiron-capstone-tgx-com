@@ -43,6 +43,11 @@ tr td:first-child {
     max-width: 60%;
 }
 
+.page-content .button {
+    border: 1px solid black;
+    background: var(--bg-3);
+}
+
 th {
     padding: 5px 0;
 }

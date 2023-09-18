@@ -8,15 +8,35 @@
     justify-self: left;
 }
 
-.new-user-form div {
+.new-user-form .standard-flex {
     justify-content: space-evenly;
 }
 
+.user-form .button {
+    border: 1px solid black;
+    background-color: var(--bg-3);
+}
+
 .new-user-form select {
+    border: 1px solid gray;
+}
+
+.error-section .error-card {
     background: var(--bg-3);
 }
 
 .arrow {
     height: 50px;
     width: 60px;
+}
+
+.upright-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+
+}
+
+.facility-section>.upright-flex {
+    justify-content: left;
 }
