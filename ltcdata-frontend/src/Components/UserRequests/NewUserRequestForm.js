@@ -56,17 +56,21 @@ export default function NewUserRequestForm() {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(formObj)
-		}).then(response => response.json())
-			.then(data => {
-				if (data.errors != null) {
-					setErrors(data.errors);
-					return;
-				}
-				let oldRequests = userRequests?.filter(x => x.id != data.id);
-				setUserRequests([...oldRequests, data]);
-				resetFormValues();
-				history.push('/admin/user_requests');
-			});
+		}).then(response => {
+			if (response.status == 201 || response.status == 200)
+				return response.json().then(data => {
+					let oldRequests = userRequests?.filter(x => x.id != data.id);
+					setUserRequests([...oldRequests, data]);
+					resetFormValues();
+					history.push('/admin/user_requests');
+				});
+			else
+				return response.json().then(data => {
+					console.log(data);
+					setErrors(data?.errors ?? ["An unknown error has occurred"]);
+				})
+		})
+			.catch(error => { console.log(error); setErrors(["An unknown error has occurred"]) })
 	}
 
 	return (

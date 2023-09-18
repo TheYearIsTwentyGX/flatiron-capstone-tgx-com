@@ -1,6 +1,5 @@
 node_modules
 *.log
-environments/
 vendor/
 tmp/
 log/

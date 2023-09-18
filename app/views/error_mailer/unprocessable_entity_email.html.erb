@@ -1,0 +1,23 @@
+<h2>Error Recorded at the following method:</h2>
+<p style="color:Tomato;">
+  <strong>
+    <%= @method %>
+  </strong>
+</p>
+
+<h2>Record Errors</h2>
+<ul>
+  <% @errors.each do |error| %>
+    <li><%= error %></li>
+  <% end %>
+</ul>
+
+<h2>Received Parameters</h2>
+<%= ap(@parameters).gsub(/<pre.*?>|<\/pre>/m, '').gsub(/\n/, '<br/>').html_safe %>
+
+<h3>Additional Information</h3>
+<ul>
+  <li>Timestamp: <%= DateTime.now.strftime("%m/%d/%Y %I:%M%p") %></li>
+  <li>Environment: <%= Rails.env.to_s %> </li>
+  <li>UserID: <%= @user %></li>
+</ul>

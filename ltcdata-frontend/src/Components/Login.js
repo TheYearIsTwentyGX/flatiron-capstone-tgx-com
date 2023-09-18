@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { UserContext } from '../Context/UserContext'
 
 function Login() {
-	const { username, setUsername } = useContext(UserContext);
+	const { setUser, setUserFacilities, username, setUsername } = useContext(UserContext);
 
 	const [password, setPassword] = useState('')
 	const [failedVisible, setFailed] = useState("none")
@@ -25,7 +25,7 @@ function Login() {
 		})
 			.then(response => {
 				if (response.status == 201) {
-					testSession();
+					getUserInfo();
 					history.push('/home')
 				}
 				else
@@ -34,10 +34,13 @@ function Login() {
 			.catch(error => { console.log(error) })
 	};
 
-	function testSession() {
-		fetch('/session').then(resp => resp.json()).then(resp => console.log(resp));
+	function getUserInfo() {
+		fetch(`/users/${username}`)
+			.then(response => response.json())
+			.then(data => {
+				setUsername(data.User_Name); setUser(data); setUserFacilities(data.Facilities);
+			})
 	}
-
 
 	function handleTextChange(e) {
 		if (e.target.id === 'username') {

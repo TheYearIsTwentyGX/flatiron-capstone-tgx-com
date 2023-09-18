@@ -62,6 +62,7 @@ class UsersController < ApplicationController
   end
 
   def render_unprocessable_entity_response(exception)
+    look_at_me_im_a_target(exception.record)
     render json: {errors: exception.record.errors.full_messages}, status: :unprocessable_entity
   end
 
