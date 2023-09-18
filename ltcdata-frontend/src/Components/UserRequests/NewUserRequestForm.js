@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './NewUserRequestForm.css';
 import { UserContext } from '../../Context/UserContext';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { UserFormContext } from '../../Context/UserFormContext';
 export default function NewUserRequestForm() {
 	const { setUsername, setUser, username, accessProfiles, setAccessProfiles, userRequests, setUserRequests, userFacilities } = useContext(UserContext);
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
+	const [errors, setErrors] = useState([]);
 	const history = useHistory();
 	//useEffect runs after the first render
 	useEffect(() => {
@@ -47,15 +48,20 @@ export default function NewUserRequestForm() {
 
 	function submitForm(e) {
 		const postOrPatch = [null, undefined].includes(formValues.id) ? ['', 'POST'] : [formValues.id, 'PATCH'];
+		let formObj = { ...formValues };
+		formObj.Facilities = formObj.Facilities.filter(x => x.Access_Profile != '');
 		fetch('/users/' + postOrPatch[0], {
 			method: postOrPatch[1],
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(formValues)
+			body: JSON.stringify(formObj)
 		}).then(response => response.json())
 			.then(data => {
-				console.log(data);
+				if (data.errors != null) {
+					setErrors(data.errors);
+					return;
+				}
 				let oldRequests = userRequests?.filter(x => x.id != data.id);
 				setUserRequests([...oldRequests, data]);
 				resetFormValues();
@@ -65,7 +71,15 @@ export default function NewUserRequestForm() {
 
 	return (
 		<Card title="User Form">
-			<form>
+			<div className='error-section'>
+
+				{errors.length > 0 ? <div className='error-card'>
+					{errors.map(x => (<div className='error' key={x}>{x}</div>))}
+				</div> : null}
+			</div>
+
+
+			<form className='user-form'>
 				<div className='new-user-form'>
 					<div className='standard-flex'>
 						<div>
@@ -93,18 +107,31 @@ export default function NewUserRequestForm() {
 						<label htmlFor='Email'>Email</label>
 						<input onChange={updateMainValues} value={formValues.Email_Address} className='login-textblock' name='Email_Address' id='Email' type='text' />
 					</div>
-					<div>
+					<div className='facility-section'>
 						<h3>Facility Access</h3>
-						{userFacilities.map(x => (
-							<div key={x.id}>
-								<input type='checkbox' value={x.id} onChange={updateFacilities} checked={formValues.Facilities.filter(f => f.id == x.id && f.Access_Profile != null).length > 0} />
-
-								{x.Report_Name}
-								<select className='select-dark' value={formValues.Facilities.find(z => z.id?.toString() == x.id?.toString())?.Access_Profile ?? ""} name={x.id} onChange={updateProfileForFacility}>
-									<option value="" />
-									{(accessProfiles != null && accessProfiles != undefined && accessProfiles.length > 0 ? accessProfiles.map(y => (<option key={y.Friendly_Name + "_" + y.id} value={y.id}>{y.Friendly_Name}</option>)) : null)}
-								</select>
-							</div>))}
+						<div className='standard-flex'>
+							<div className='upright-flex'>
+								<table>
+									<tbody>
+										{userFacilities.map(x => (<tr key={x.id + "_tr"}>
+											<td>
+												<input key={x.id + "_cb"} type='checkbox' value={x.id} onChange={updateFacilities} checked={formValues.Facilities.filter(f => f.id == x.id && f.Access_Profile != null).length > 0} />
+											</td>
+											<td>
+												{x.Report_Name}
+											</td>
+											<td>
+												<select className='select-light' value={formValues.Facilities.find(z => z.id?.toString() == x.id?.toString())?.Access_Profile ?? ""} name={x.id} onChange={updateProfileForFacility}>
+													<option value="" />
+													{(accessProfiles != null && accessProfiles != undefined && accessProfiles.length > 0 ? accessProfiles.map(y => (<option key={y.Friendly_Name + "_" + y.id} value={y.id}>{y.Friendly_Name}</option>)) : null)}
+												</select>
+											</td>
+										</tr>
+										))}
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 
 

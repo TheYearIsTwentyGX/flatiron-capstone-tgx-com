@@ -19,7 +19,9 @@ class FacilitiesController < ApplicationController
   end
 
   def create
-    @facility = Facility.create!(facility_params)
+    @facility = Facility.new(facility_params)
+
+    @facility.save!
 
     puts "Session ID: #{session[:user_id]}"
 
@@ -59,7 +61,12 @@ class FacilitiesController < ApplicationController
   end
 
   def render_invalid_response
-    render json: {error: @facility.errors.full_messages}, status: unprocessable_entity
+    puts @facility.errors.full_messages
+    if @facility.errors.full_messages.include? "Id Must be an Integer"
+      @facility.errors.delete(:id)
+      @facility.errors.add(:id, "(Company Number) must be an Integer")
+    end
+    render json: {errors: @facility.errors.full_messages}, status: :unprocessable_entity
   end
 
   # Only allow a list of trusted parameters through.
