@@ -2,14 +2,31 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './Login';
 import UserRequestList from './UserRequests/UserRequestList';
 import { UserContext } from '../Context/UserContext';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserFormProvider } from '../Context/UserFormContext';
 import ViewFacilityInfo from './FacilityViews/ViewFacilityInfo';
 import FacilityEdit from './FacilityViews/FacilityEdit';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function MainContent() {
-	const { username, setUsername, userFacilities, setUserFacilities } = useContext(UserContext);
+	const { setUser, username, setUsername, userFacilities, setUserFacilities } = useContext(UserContext);
+	const history = useHistory();
 
+	useEffect(() => {
+		if (username === "") {
+			fetch('/session')
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					if (data.User_Name == null || data.User_Name == undefined || data.User_Name == "")
+						history.push('/');
+					else {
+						setUsername(data.User_Name); setUser(data); setUserFacilities(data.Facilities);
+					}
+				})
+				.catch(error => history.push('/'));
+		}
+	}, []);
 
 
 	return (

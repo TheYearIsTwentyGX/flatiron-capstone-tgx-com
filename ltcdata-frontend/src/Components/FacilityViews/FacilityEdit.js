@@ -14,7 +14,7 @@ export default function FacilityEdit() {
 	const history = useHistory();
 
 	function onInputChange(e) {
-		console.log(errors);
+		console.log("Updating form values. Old formValues state: ", formValues)
 		setFormValues({ ...formValues, [e.target.name]: e.target.value });
 	}
 
@@ -40,7 +40,7 @@ export default function FacilityEdit() {
 		const body = formValues;
 		body.OldCoserial = id;
 
-		fetch('http://localhost:3002/facilities/' + postOrPatch[0], {
+		fetch('/facilities/' + postOrPatch[0], {
 			method: postOrPatch[1],
 			headers: {
 				'Content-Type': 'application/json'

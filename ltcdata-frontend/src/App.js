@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
+import favicon from './favicon.ico'
 import Login from './Components/Login';
 import ViewFacilityInfo from './Components/FacilityViews/ViewFacilityInfo';
 import Sidebar from './Components/Sidebar';
@@ -16,9 +17,10 @@ import ExpandingButton from './Components/ExpandingButton';
 
 function App() {
 	const history = useHistory();
-
+	document.title = "LTCData Processing"
 	function onLogout() {
-		history.push('/')
+		fetch('/logout', { method: 'POST' })
+			.then(history.push("/"));
 	}
 
 	function goHome() {
@@ -39,35 +41,42 @@ function App() {
 	];
 
 	return (
-		<div className="App">
-			<UserProvider>
-				<div className='primary-layout'>
-					<Switch>
-						<Route exact path="/">
-							<Login />
-						</Route>
-						<Route>
-							<div className='new-header'>
-								<div className='standard-flex header-content'>
-									<img src="http://10.1.1.37/favicon.ico" alt='LTCData Logo' onClick={goHome} />
-									<h1 className='centered-text'>LTCData Processing</h1>
-									<nav className='general-flex right-align'>
-										<ExpandingButton text="Site Admin" children={SiteAdmin} />
-										<ExpandingButton text="Corporate" children={CorporateInfo} />
-										<div onClick={onLogout}>
-											<ExpandingButton text="Logout" primary_location={'/'} />
+		<Switch>
+			<Route exact path="/logo">
+				<img src={favicon} className="App-logo" alt="logo" />
+			</Route>
+			<Route>
+				<div className="App">
+					<UserProvider>
+						<div className='primary-layout'>
+							<Switch>
+								<Route exact path="/">
+									<Login />
+								</Route>
+								<Route>
+									<div className='new-header'>
+										<div className='standard-flex header-content'>
+											<img src={favicon} alt='LTCData Logo' onClick={goHome} />
+											<h1 className='centered-text'>LTCData Processing</h1>
+											<nav className='general-flex right-align'>
+												<ExpandingButton text="Site Admin" children={SiteAdmin} />
+												<ExpandingButton text="Corporate" children={CorporateInfo} />
+												<div onClick={onLogout}>
+													<ExpandingButton text="Logout" primary_location={'/'} />
+												</div>
+											</nav>
 										</div>
-									</nav>
-								</div>
-							</div>
-							<div className='main-content'>
-								<MainContent />
-							</div>
-						</Route>
-					</Switch>
+									</div>
+									<div className='main-content'>
+										<MainContent />
+									</div>
+								</Route>
+							</Switch>
+						</div>
+					</UserProvider>
 				</div>
-			</UserProvider>
-		</div>
+			</Route>
+		</Switch>
 	);
 }
 

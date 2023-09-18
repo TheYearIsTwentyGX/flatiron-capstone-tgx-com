@@ -1,5 +1,5 @@
 # Handles requests for users
-class MasterSecurity::UsersController < ApplicationController
+class UsersController < ApplicationController
   wrap_parameters :user, include: [:password, :password_confirmation, :User_Name, :Access_Profile, :Full_Name], on: [:create]
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
@@ -37,6 +37,7 @@ class MasterSecurity::UsersController < ApplicationController
   def create
     @user = User.create!(user_params)
     update_facilities
+    TestMailer.welcome_email([@user.User_Name, user_params[:password]]).deliver_now
     render json: @user, status: :created, serializer: UserRequestSerializer
   end
 
@@ -66,6 +67,6 @@ class MasterSecurity::UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:User_Name, :id, :Password, :Full_Name, :password, :password_confirmation, :Access_Profile, :Email_Address, :Facilities, :Access_Until, :Phone, :Extension, :Credentials, :password_digest)
+    params.require(:user).permit(:User_Name, :id, :Password, :Full_Name, :password, :password_confirmation, :Access_Profile, :Email_Address, :Facilities, :Phone, :Extension, :Credentials, :password_digest)
   end
 end

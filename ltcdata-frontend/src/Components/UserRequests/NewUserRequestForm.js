@@ -6,18 +6,14 @@ import Card from '../CommonUI/Card';
 import { UserFormContext } from '../../Context/UserFormContext';
 
 export default function NewUserRequestForm() {
-	const { username, accessProfiles, setAccessProfiles, userRequests, setUserRequests, userFacilities } = useContext(UserContext);
+	const { setUsername, setUser, username, accessProfiles, setAccessProfiles, userRequests, setUserRequests, userFacilities } = useContext(UserContext);
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
 	const history = useHistory();
 	//useEffect runs after the first render
 	useEffect(() => {
-		//Push back to login if no username
-		if (username === "") {
-			history.push('/');
-		}
 		//Get the list of AccessProfiles, if it hasn't been fetched yet
 		if (accessProfiles == null) {
-			fetch('http://localhost:3002/access_profiles')
+			fetch('/access_profiles')
 				.then(response => response.json())
 				.then(data => setAccessProfiles(data));
 		}
@@ -25,9 +21,9 @@ export default function NewUserRequestForm() {
 
 	//Handles the main textboxes
 	function updateMainValues(e) {
-		let oldVals = formValues;
-		oldVals[e.target.name] = e.target.value;
-		setFormValues(oldVals);
+		console.log("Changing formValues: ", formValues)
+		setFormValues({ ...formValues, [e.target.name]: e.target.value });
+
 	}
 
 	//Handles the checkboxes for facilities
@@ -51,7 +47,7 @@ export default function NewUserRequestForm() {
 
 	function submitForm(e) {
 		const postOrPatch = [null, undefined].includes(formValues.id) ? ['', 'POST'] : [formValues.id, 'PATCH'];
-		fetch('http://localhost:3002/users/' + postOrPatch[0], {
+		fetch('/users/' + postOrPatch[0], {
 			method: postOrPatch[1],
 			headers: {
 				'Content-Type': 'application/json'
@@ -93,7 +89,10 @@ export default function NewUserRequestForm() {
 							<input onChange={updateMainValues} value={formValues.password_confirmation} className='login-textblock' name='password_confirmation' id='password_confirmation' type='password' />
 						</div>
 					</div>
-
+					<div>
+						<label htmlFor='Email'>Email</label>
+						<input onChange={updateMainValues} value={formValues.Email_Address} className='login-textblock' name='Email_Address' id='Email' type='text' />
+					</div>
 					<div>
 						<h3>Facility Access</h3>
 						{userFacilities.map(x => (

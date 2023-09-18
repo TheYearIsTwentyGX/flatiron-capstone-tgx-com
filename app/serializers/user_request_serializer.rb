@@ -3,11 +3,7 @@ class UserRequestSerializer < ActiveModel::Serializer
 
   def Facilities
     object.facility_accesses.map do |access|
-      {
-        id: access.facility_id,
-        Report_Name: access.facility.Report_Name,
-        Access_Profile: access.profile
-      }
+      Facility.find(access.facility_id)
     end
   end
 end

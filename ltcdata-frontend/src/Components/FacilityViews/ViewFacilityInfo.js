@@ -8,15 +8,6 @@ function ViewFacilityInfo() {
 	const { username, userFacilities, setUserFacilities } = useContext(UserContext);
 	const [selectedFacility, setSelectedFacility] = useState(null);
 	const history = useHistory();
-	useEffect(() => {
-		if (username === '') {
-			history.push('/');
-			return;
-		}
-		fetch("http://localhost:3002/users/" + username + "/facilities")
-			.then(response => response.json())
-			.then(data => setUserFacilities(data));
-	}, [username]);
 
 	function handleFacilityChange(e) {
 		if (e.target.value === null)

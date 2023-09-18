@@ -11,7 +11,7 @@ function UserRequestList() {
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
 	const history = useHistory();
 	useEffect(() => {
-		fetch("http://localhost:3002/users")
+		fetch("/users")
 			.then(response => response.json())
 			.then(data => setUserRequests(data));
 	}, []);

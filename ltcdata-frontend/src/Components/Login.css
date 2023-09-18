@@ -1,80 +1,81 @@
 .login-layout {
-    width: 40%;
-    display: grid;
-    margin: 0 auto;
-    margin-top: 10px;
-    align-items: center;
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-    border-radius: 10px;
-    box-shadow: 15px 15px 15px 0px rgba(0,0,0,0.5);
-    grid-template-columns: 20% 80%;
+  width: 40%;
+  display: grid;
+  margin: 0 auto;
+  margin-top: 10px;
+  align-items: center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  border-radius: 10px;
+  box-shadow: 15px 15px 15px 0px rgba(0, 0, 0, 0.5);
+  grid-template-columns: 20% 80%;
 }
 
 .logo {
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    margin: 0px;
-    border-radius: 10px 0px 0px 0px;
-    background-color: #67999a;
-    justify-self: right;
-    display: grid;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  margin: 0px;
+  border-radius: 10px 0px 0px 0px;
+  background-color: #67999a;
+  justify-self: right;
+  display: grid;
 }
 
-.logo > img {
-    margin: 0 auto;
+.logo>img {
+  margin: 0 auto;
 }
 
 .bluespace {
-    background-color: #9acccd;
-    min-height: 600px;
-    border-radius: 0px 0px 0px 10px;
-    margin: 0px;
+  background-color: #9acccd;
+  min-height: 600px;
+  border-radius: 0px 0px 0px 10px;
+  margin: 0px;
 }
+
 .formDiv {
-    padding: 15px;
-    align-self: normal;
+  padding: 15px;
+  align-self: normal;
 }
 
 .login-submit {
-    display: inline-block;
-    box-sizing: content-box;
-    cursor: pointer;
-    margin-top: 15px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 3px;
-    font: normal 16px/normal Verdana, Geneva, sans-serif;
-    color: rgba(255,255,255,0.9);
-    text-overflow: clip;
-    background: #67999a;
-    box-shadow: 3px 3px 5px 2px rgba(0,0,0,0.6) ;
-    text-shadow: -1px -1px 0 rgba(15,73,168,0) ;
-  }
-
-  .login-textblock {
-    display: inline-block;
-    box-sizing: content-box;
-    cursor: pointer;
-    padding: 5px 10px;
-    border: solid 1px black;
-    border-radius: 3px;
-    font: normal 16px/normal Verdana, Geneva, sans-serif;
-    color: rgba(0,0,0,1);
-    text-overflow: clip;
-    background: #9acccd;
-    text-shadow: -1px -1px 0 rgba(15,73,168,0) ;
-  }
-
-h1 {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: 200;
+  display: inline-block;
+  box-sizing: content-box;
+  cursor: pointer;
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  font: normal 16px/normal Verdana, Geneva, sans-serif;
+  color: rgba(255, 255, 255, 0.9);
+  text-overflow: clip;
+  background: #67999a;
+  box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.6);
+  text-shadow: -1px -1px 0 rgba(15, 73, 168, 0);
 }
 
-  .loginText {
-    font-weight: 400;
-    text-shadow: 1px 1px 2px gray;
-    color: #67999a;
-  }
+.login-textblock {
+  display: inline-block;
+  box-sizing: content-box;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  font: normal 16px/normal Verdana, Geneva, sans-serif;
+  color: rgba(0, 0, 0, 1);
+  text-overflow: clip;
+  background: #9acccd;
+  text-shadow: -1px -1px 0 rgba(15, 73, 168, 0);
+}
+
+h1 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 200;
+}
+
+.loginText {
+  font-weight: 400;
+  text-shadow: 1px 1px 2px gray;
+  color: #67999a;
+}

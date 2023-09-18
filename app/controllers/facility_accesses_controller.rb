@@ -1,4 +1,4 @@
-class MasterSecurity::FacilityAccessesController < ApplicationController
+class FacilityAccessesController < ApplicationController
   before_action :set_facility_access, only: %i[show update destroy]
   before_action { ApplicationController.authenticate(session) }
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response

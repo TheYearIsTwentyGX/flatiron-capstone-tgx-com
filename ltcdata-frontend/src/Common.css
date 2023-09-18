@@ -27,7 +27,6 @@
     background: gainsboro;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid gray;
     max-width: 250px;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
     height: max-content;
@@ -54,7 +53,6 @@
     cursor: pointer;
     margin: 10px 5px;
     border-radius: 10px;
-    border: 1px solid gray;
     padding: 10px 20px;
     color: rgba(0, 0, 0, 1);
     text-align: center;
@@ -68,10 +66,10 @@
 
 .select-dark {
     background-color: var(--bg-3);
+    border: none;
     margin: 9px;
     padding: 6px;
-    border: 1px solid black;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 .primary-layout {

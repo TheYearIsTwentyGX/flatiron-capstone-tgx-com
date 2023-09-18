@@ -16,16 +16,16 @@ function Login() {
 			"Username": username,
 			"Password": password
 		}
-		fetch('http://localhost:3002/login', {
+		fetch('/login', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				"Access-Control-Allow-Origin": "*",
-			},
 			body: JSON.stringify(data),
+			headers: {
+				"Content-Type": "application/json"
+			}
 		})
 			.then(response => {
-				if (response.status == 200) {
+				if (response.status == 201) {
+					testSession();
 					history.push('/home')
 				}
 				else
@@ -33,6 +33,11 @@ function Login() {
 			})
 			.catch(error => { console.log(error) })
 	};
+
+	function testSession() {
+		fetch('/session').then(resp => resp.json()).then(resp => console.log(resp));
+	}
+
 
 	function handleTextChange(e) {
 		if (e.target.id === 'username') {

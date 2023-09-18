@@ -1,11 +1,11 @@
 scope "/facilities" do
-  scope module: "master_security/facility_views" do
+  scope module: "facility_views" do
     get "/PCC", to: "brief#pcc"
   end
-  resources :facilities, controller: "master_security/facilities", path: "" do
+  resources :facilities, controller: "facilities", path: "" do
     collection do
       get "census", to: "census"
-      get "multiple_rdo", to: "master_security/user_access_to_facilities#index"
+      get "multiple_rdo", to: "user_access_to_facilities#index"
       get "/owners", action: "owners"
       # Facility Staff
       get "/:id/regionals", action: "regionals"
