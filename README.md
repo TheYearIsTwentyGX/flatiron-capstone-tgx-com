@@ -18,8 +18,11 @@
 ## Functionality
 As this is intended to be an internal tool, there is no manual sign-up functionality. However, when you are logged in, you are able to create new users.
 
-Users can also be assigned to facilities, as well as given a position, title, and credentials.
+Users can also be assigned a Title, Username, and an Email Address. Once the user is created, their credentials will be emailed to the user's email address
+(I know this is very bad practice, but this is how my employer insists that it be handled.)
 
 Selecting users in the User List will allow you to edit said user.
 
 The home page allows you to view and edit info about the facilities. You are only able to view facilities that you have been assigned to.
+
+Additionally, any errors with form submissions will be emailed to the site admin (me).
