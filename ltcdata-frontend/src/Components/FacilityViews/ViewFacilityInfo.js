@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./ViewFacilityInfo.css";
 import Card from "../CommonUI/Card";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/UserContext";
 
 function ViewFacilityInfo() {
 	const { username, userFacilities, setUserFacilities } = useContext(UserContext);
 	const [selectedFacility, setSelectedFacility] = useState(null);
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	function handleFacilityChange(e) {
 		if (e.target.value === null)

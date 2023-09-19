@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import "./UserRequestList.css"
 import NewUserRequestForm from "./NewUserRequestForm";
 import Card from "../CommonUI/Card";
@@ -9,7 +9,7 @@ import { UserContext } from "../../Context/UserContext";
 function UserRequestList() {
 	const { userRequests, setUserRequests } = useContext(UserContext);
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
-	const history = useHistory();
+	const navigate = useNavigate();
 	useEffect(() => {
 		fetch("/users")
 			.then(response => response.json())
@@ -18,7 +18,7 @@ function UserRequestList() {
 
 	function newRequest() {
 		resetFormValues();
-		history.push("/admin/user_requests/new");
+		navigate("/admin/user_requests/new");
 	}
 
 	function goToUserRequest(e) {
@@ -26,7 +26,7 @@ function UserRequestList() {
 		const txt = row.innerText;
 		const req = userRequests.find(x => x.User_Name == txt);
 		setFormValues(req);
-		history.push(`/admin/user_requests/${txt}`)
+		navigate(`/admin/user_requests/${txt}`)
 	}
 	return (<div className="page-root">
 		<div className="page-content">

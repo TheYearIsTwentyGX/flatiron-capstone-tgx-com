@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import './ExpandingButton.css'
 
 export default function ExpandingButton({ text, children = [], primary_location = null }) {
 	const [expanded, setExpanded] = useState(true);
 	const [childClasses, setChildClasses] = useState("nested");
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const hoverable = children.length > 0 ? "dropdown-content" : "no-dropdown-content";
 	//const hoverable =  "dropdown-content";
 
 	function toggleExpand() {
 		if (primary_location != null) {
-			history.push(primary_location);
+			navigate(primary_location);
 		}
 
 		setExpanded(!expanded);
@@ -26,7 +26,7 @@ export default function ExpandingButton({ text, children = [], primary_location 
 
 	function buttonClick(e) {
 		const child = children.find(x => x.Name === e.target.innerText);
-		history.push(child.Location);
+		navigate(child.Location);
 	}
 
 	return (

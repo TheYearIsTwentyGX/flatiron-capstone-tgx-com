@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import './Login.css'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { UserContext } from '../Context/UserContext'
 
 function Login() {
@@ -8,7 +8,7 @@ function Login() {
 
 	const [password, setPassword] = useState('')
 	const [failedVisible, setFailed] = useState("none")
-	const history = useHistory()
+	const navigate = useNavigate()
 
 	function handleSubmit(event) {
 		event.preventDefault()
@@ -26,7 +26,7 @@ function Login() {
 			.then(response => {
 				if (response.status == 201) {
 					getUserInfo();
-					history.push('/home')
+					navigate('/home')
 				}
 				else
 					setFailed("block")

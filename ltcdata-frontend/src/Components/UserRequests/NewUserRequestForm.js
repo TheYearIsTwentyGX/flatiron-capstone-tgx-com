@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './NewUserRequestForm.css';
 import { UserContext } from '../../Context/UserContext';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Card from '../CommonUI/Card';
 import { UserFormContext } from '../../Context/UserFormContext';
 
@@ -9,7 +9,7 @@ export default function NewUserRequestForm() {
 	const { setUsername, setUser, username, accessProfiles, setAccessProfiles, userRequests, setUserRequests, userFacilities } = useContext(UserContext);
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
 	const [errors, setErrors] = useState([]);
-	const history = useHistory();
+	const navigate = useNavigate();
 	//useEffect runs after the first render
 	useEffect(() => {
 		//Get the list of AccessProfiles, if it hasn't been fetched yet
@@ -62,7 +62,7 @@ export default function NewUserRequestForm() {
 					let oldRequests = userRequests?.filter(x => x.id != data.id);
 					setUserRequests([...oldRequests, data]);
 					resetFormValues();
-					history.push('/admin/user_requests');
+					navigate('/admin/user_requests');
 				});
 			else
 				return response.json().then(data => {

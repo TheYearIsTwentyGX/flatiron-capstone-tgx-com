@@ -1,10 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useNavigate } from "react-router-dom";
 import "./Sidebar.css"
 import ExpandingButton from "./ExpandingButton";
 
 function Sidebar({ onLogout }) {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const SiteAdmin = [
         { Name: "User Requests", Location: "/admin/user_requests" }
@@ -20,9 +20,9 @@ function Sidebar({ onLogout }) {
 
     return (<div className="sidebar-root">
         <h1>Sidebar</h1>
-            <ExpandingButton text="Site Admin" children={SiteAdmin}/>
-            <ExpandingButton text="Corporate Info" children={CorporateInfo}></ExpandingButton>
-            <div className="button sidebar-button" onClick={onLogout}>Logout</div>
+        <ExpandingButton text="Site Admin" children={SiteAdmin} />
+        <ExpandingButton text="Corporate Info" children={CorporateInfo}></ExpandingButton>
+        <div className="button sidebar-button" onClick={onLogout}>Logout</div>
     </div>)
 }
 

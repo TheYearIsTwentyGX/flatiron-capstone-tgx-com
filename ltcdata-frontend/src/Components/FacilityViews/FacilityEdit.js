@@ -1,7 +1,7 @@
 import Card from "../CommonUI/Card";
 import "./FacilityEdit.css";
 import { useState, useContext } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../Context/UserContext";
 
 export default function FacilityEdit() {
@@ -11,7 +11,7 @@ export default function FacilityEdit() {
 	const [selectedFacility, setSelectedFacility] = useState("");
 	const [errors, setErrors] = useState([]);
 	const { id = "" } = useParams();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	function onInputChange(e) {
 		console.log("Updating form values. Old formValues state: ", formValues)
@@ -20,11 +20,11 @@ export default function FacilityEdit() {
 
 	function editedFacilityChanged(e) {
 		if (e.target.value === "" || e.target.value === null || e.target.value === undefined) {
-			history.push("/admin/edit_facility/");
+			navigate("/admin/edit_facility/");
 			addingNew();
 			return;
 		}
-		history.push("/admin/edit_facility/" + e.target.value)
+		navigate("/admin/edit_facility/" + e.target.value)
 		setSelectedFacility(e.target.value);
 		setFormValues(userFacilities.find(f => f.id == e.target.value));
 	}
@@ -61,7 +61,7 @@ export default function FacilityEdit() {
 					let oldFac = userFacilities.filter(f => f.id != id);
 					setUserFacilities([...oldFac, data]);
 				}
-				history.push("/admin/edit_facility/" + data.id)
+				navigate("/admin/edit_facility/" + data.id)
 			})
 	}
 
