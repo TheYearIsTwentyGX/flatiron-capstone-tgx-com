@@ -5,12 +5,16 @@
 
 ## How to Run This Project
 
+### Access the hosted version
+* Go to [my personal website, twentygx.com](http://twentygx.com)
+
+### Run a local instance
 * Clone this repository
 * In the root directory, run the following commands:
   *  `bundle install`
   *  `rails db:migrate`
   *  `rails db:seed`
-  *  `rails s`
+  *  `rails s -e production -b 0.0.0.0 -p 3002`
 * In the `/ltcdata-frontend/` folder, run the following commands:
   * `npm install`
   * `npm start`
