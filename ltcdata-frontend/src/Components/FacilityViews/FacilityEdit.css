@@ -57,10 +57,6 @@
   font-weight: bold;
 }
 
-#facility-selector {
-  background: var(--bg-1);
-}
-
 .error-card {
   flex-flow: row nowrap;
   justify-content: center;

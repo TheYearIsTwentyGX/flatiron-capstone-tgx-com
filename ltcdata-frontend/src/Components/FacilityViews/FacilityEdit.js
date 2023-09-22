@@ -68,14 +68,17 @@ export default function FacilityEdit() {
 	return (
 		<div className="facilityEditor">
 
-			<Card title="Edit Facility">
-				<label for='selected-facility'>Facility to Edit</label>
-				<select id="facility-selector" name='selected-facility' className='select-dark' value={selectedFacility} onChange={editedFacilityChanged}>
-					<option value={null} />
-					{userFacilities?.map((facility) => (<option value={facility.id}>{facility.Report_Name}</option>))}
-				</select>
-				<div className="submit-button" onClick={addingNew}>
-					Add a New Facility
+			<Card title="Facility Management">
+				<div>
+
+					<div className="submit-button" onClick={addingNew}>Add a New Facility</div>
+					<div className="submit-button">
+						<label for='selected-facility'>Edit a Facility:</label>
+						<select id="facility-selector" name='selected-facility' className='select-dark' value={selectedFacility} onChange={editedFacilityChanged}>
+							<option value={null} />
+							{userFacilities?.map((facility) => (<option value={facility.id}>{facility.Report_Name}</option>))}
+						</select>
+					</div>
 				</div>
 				<div className="facility-card">
 					<div>
@@ -106,7 +109,7 @@ export default function FacilityEdit() {
 					</div>
 				</div>
 				<div className="submit-button" onClick={facilityFormSubmitted}>
-					Submit Facility
+					Submit {selectedFacility === "" ? "New" : "Modified"} Facility
 				</div>
 				{errors.length > 0 ? (<div className="error-card">
 					{errors.map(error => (<div className='error'>{error}</div>))}
