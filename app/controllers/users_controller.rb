@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
   rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
   before_action :set_user, only: %i[show facilities update update_facilities contact access_profile]
-  before_action { ApplicationController.authenticate(session) }
+  skip_before_action :authorize, only: %i[create]
   after_action :update_facilities, only: [:update, :create]
 
   def index

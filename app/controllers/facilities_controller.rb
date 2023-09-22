@@ -2,6 +2,7 @@ class FacilitiesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
   rescue_from ActiveRecord::RecordInvalid, with: :render_invalid_response
   before_action :set_facility, only: %i[show contact_info]
+  skip_before_action :authorize, only: %i[index]
 
   # GET /facilities
   def index

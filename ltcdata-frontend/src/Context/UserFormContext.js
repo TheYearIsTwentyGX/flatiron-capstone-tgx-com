@@ -8,6 +8,7 @@ const FormValues = {
     Full_Name: "",
     password: "",
     password_confirmation: "",
+    Email_Address: "",
     Credentials: "",
     Facilities: []
 }

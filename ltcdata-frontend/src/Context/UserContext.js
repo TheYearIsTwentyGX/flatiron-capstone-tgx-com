@@ -11,7 +11,17 @@ export function UserProvider({ children }) {
     const [userFacilities, setUserFacilities] = useState([]);
     const [userRequests, setUserRequests] = useState([]);
 
-    return (<UserContext.Provider value={{ username, setUsername, user, setUser, permissions, setPermissions, accessProfiles, setAccessProfiles, editedUser, setEditedUser, userFacilities, setUserFacilities, userRequests, setUserRequests }}>{children}</UserContext.Provider>);
+    function resetState() {
+        setUsername("");
+        setUser({});
+        setPermissions(null);
+        setAccessProfiles(null);
+        setEditedUser(null);
+        setUserFacilities([]);
+        setUserRequests([]);
+    }
+
+    return (<UserContext.Provider value={{ username, setUsername, user, setUser, permissions, setPermissions, accessProfiles, setAccessProfiles, editedUser, setEditedUser, userFacilities, setUserFacilities, userRequests, setUserRequests, resetState }}>{children}</UserContext.Provider>);
 }
 
 export { UserContext }

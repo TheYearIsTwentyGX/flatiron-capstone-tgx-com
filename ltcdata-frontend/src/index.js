@@ -5,12 +5,18 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
+import { UserProvider } from './Context/UserContext';
+import { UserFormProvider } from './Context/UserFormContext';
 
 const rootElement = document.getElementById('root')
 const root = createRoot(rootElement);
 root.render(
   <BrowserRouter>
-    <App />
+    <UserProvider>
+      <UserFormProvider>
+        <App />
+      </UserFormProvider>
+    </UserProvider>
   </BrowserRouter>
 );
 

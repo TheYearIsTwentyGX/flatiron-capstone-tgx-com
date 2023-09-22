@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './NewUserRequestForm.css';
 import { UserContext } from '../../Context/UserContext';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Card from '../CommonUI/Card';
 import { UserFormContext } from '../../Context/UserFormContext';
 
-export default function NewUserRequestForm() {
-	const { setUsername, setUser, username, accessProfiles, setAccessProfiles, userRequests, setUserRequests, userFacilities } = useContext(UserContext);
+export default function NewUserRequestForm({ title = ["New User Form", "Submit New User"] }) {
+	const { setUsername, setUser, username, accessProfiles, setAccessProfiles, userRequests, setUserRequests, setUserFacilities, userFacilities } = useContext(UserContext);
 	const { formValues, setFormValues, resetFormValues } = useContext(UserFormContext);
+	const [formType, setFormType] = useState(title);
 	const [errors, setErrors] = useState([]);
 	const navigate = useNavigate();
 	//useEffect runs after the first render
@@ -56,25 +57,28 @@ export default function NewUserRequestForm() {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(formObj)
-		}).then(response => {
-			if (response.status == 201 || response.status == 200)
-				return response.json().then(data => {
+		}).then(response => { return { response: response, data: response.json() } })
+			.then(({ response, data }) => {
+				if ([201, 200].includes(response.status) == false || [undefined, null].includes(data?.errors) == false) {
+					throw new Error(data?.errors?.length > 0 ? data.errors : ["An unknown error has occurred"]);
+				} else
+					return data;
+			}).then(data => {
+				if ([undefined, null, ""].includes(username)) {
+					navigate('/');
+				} else {
 					let oldRequests = userRequests?.filter(x => x.id != data.id);
 					setUserRequests([...oldRequests, data]);
 					resetFormValues();
 					navigate('/admin/user_requests');
-				});
-			else
-				return response.json().then(data => {
-					console.log(data);
-					setErrors(data?.errors ?? ["An unknown error has occurred"]);
-				})
-		})
-			.catch(error => { console.log(error); setErrors(["An unknown error has occurred"]) })
+				}
+
+			})
+			.catch(error => { console.log(error); setErrors(error) })
 	}
 
 	return (
-		<Card title="User Form">
+		<Card title={(formValues?.id > 0 ? "Modify User Form" : title[0])}>
 			<div className='error-section'>
 
 				{errors.length > 0 ? <div className='error-card'>
@@ -111,37 +115,36 @@ export default function NewUserRequestForm() {
 						<label htmlFor='Email'>Email</label>
 						<input onChange={updateMainValues} value={formValues.Email_Address} className='login-textblock' name='Email_Address' id='Email' type='text' />
 					</div>
-					<div className='facility-section'>
-						<h3>Facility Access</h3>
-						<div className='standard-flex'>
-							<div className='upright-flex'>
-								<table>
-									<tbody>
-										{userFacilities.map(x => (<tr key={x.id + "_tr"}>
-											<td>
-												<input key={x.id + "_cb"} type='checkbox' value={x.id} onChange={updateFacilities} checked={formValues.Facilities.filter(f => f.id == x.id && f.Access_Profile != null).length > 0} />
-											</td>
-											<td>
-												{x.Report_Name}
-											</td>
-											<td>
-												<select className='select-light' value={formValues.Facilities.find(z => z.id?.toString() == x.id?.toString())?.Access_Profile ?? ""} name={x.id} onChange={updateProfileForFacility}>
-													<option value="" />
-													{(accessProfiles != null && accessProfiles != undefined && accessProfiles.length > 0 ? accessProfiles.map(y => (<option key={y.Friendly_Name + "_" + y.id} value={y.id}>{y.Friendly_Name}</option>)) : null)}
-												</select>
-											</td>
-										</tr>
-										))}
-									</tbody>
-								</table>
+					{userFacilities.length < 1 ? <div className='standard-flex' /> :
+						<div className='facility-section'>
+							<h3>Facility Access</h3>
+							<div className='standard-flex'>
+								<div className='upright-flex'>
+									<table>
+										<tbody>
+											{userFacilities.map(x => (<tr key={x.id + "_tr"}>
+												<td>
+													<input key={x.id + "_cb"} type='checkbox' value={x.id} onChange={updateFacilities} checked={formValues.Facilities.filter(f => f.id == x.id && f.Access_Profile != null).length > 0} />
+												</td>
+												<td>
+													{x.Report_Name}
+												</td>
+												<td>
+													<select className='select-light' value={formValues.Facilities.find(z => z.id?.toString() == x.id?.toString())?.Access_Profile ?? ""} name={x.id} onChange={updateProfileForFacility}>
+														<option value="" />
+														{(accessProfiles != null && accessProfiles != undefined && accessProfiles.length > 0 ? accessProfiles.map(y => (<option key={y.Friendly_Name + "_" + y.id} value={y.id}>{y.Friendly_Name}</option>)) : null)}
+													</select>
+												</td>
+											</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
 							</div>
-						</div>
-					</div>
-
-
+						</div>}
 				</div>
 				<div className='button' onClick={submitForm}>
-					Submit User
+					{(formValues?.id > 0 ? "Submit Modified User" : title[1])}
 				</div>
 			</form>
 		</Card>

@@ -75,6 +75,7 @@ function Login() {
 						<input className='login-submit' type='submit' value='Login' />
 					</div>
 				</form>
+				<input className='login-submit' type='button' value='Sign Up' onClick={() => navigate('/signup')} />
 			</div>
 		</div>
 	)
